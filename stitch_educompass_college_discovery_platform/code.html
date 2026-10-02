@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduFinder - Institutional Discovery &amp; Academic Benchmarking Platform</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary": "#0051d5",
+            "on-surface": "#0b1c30",
+            "background": "#f8f9ff",
+            "secondary-fixed": "#dbe1ff",
+            "surface-dim": "#cbdbf5",
+            "on-background": "#0b1c30",
+            "secondary-fixed-dim": "#b4c5ff",
+            "surface-bright": "#f8f9ff",
+            "on-secondary-container": "#fefcff",
+            "tertiary-container": "#002114",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-error-container": "#93000a",
+            "outline": "#76777d",
+            "on-secondary-fixed-variant": "#003ea8",
+            "on-primary-fixed": "#131b2e",
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#45464d",
+            "on-primary-container": "#7c839b",
+            "on-tertiary-container": "#069669",
+            "on-primary-fixed-variant": "#3f465c",
+            "on-primary": "#ffffff",
+            "outline-variant": "#c6c6cd",
+            "primary-fixed-dim": "#bec6e0",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "tertiary": "#000000",
+            "error": "#ba1a1a",
+            "surface-tint": "#565e74",
+            "surface-variant": "#d3e4fe",
+            "primary-container": "#131b2e",
+            "on-tertiary-fixed": "#002114",
+            "surface-container-highest": "#d3e4fe",
+            "primary-fixed": "#dae2fd",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#85f8c4",
+            "secondary-container": "#316bf3",
+            "primary": "#000000",
+            "surface-container-high": "#dce9ff",
+            "error-container": "#ffdad6",
+            "inverse-primary": "#bec6e0",
+            "surface-container": "#e5eeff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#00174b",
+            "inverse-on-surface": "#eaf1ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "margin": "2rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "label-lg": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "body-lg": ["Inter"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"]
+          },
+          "fontSize": {
+            "label-lg": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["0.9375rem", { "lineHeight": "1.5rem", "fontWeight": "400" }],
+            "headline-xl-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-sm": ["0.8125rem", { "lineHeight": "1.25rem", "fontWeight": "400" }],
+            "headline-xl": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["1.125rem", { "lineHeight": "1.75rem", "fontWeight": "400" }],
+            "display-lg": ["3rem", { "lineHeight": "3.5rem", "letterSpacing": "-0.025em", "fontWeight": "700" }],
+            "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "title-sm": ["1rem", { "lineHeight": "1.5rem", "fontWeight": "600" }],
+            "display-lg-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.02em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c6c6cd;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #eff4ff;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-surface-container-lowest/90 backdrop-blur-md docked full-width top-0 sticky z-40 shadow-sm border-b border-outline-variant/40">
+<div class="flex justify-between items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto h-16">
+<div class="flex items-center gap-3">
+<button aria-label="Open Navigation Menu" class="p-2 -ml-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors md:hidden" id="open-drawer-btn">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<a class="flex items-center gap-2 group" href="#hero">
+<div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center text-on-secondary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">school</span>
+</div>
+<span class="text-headline-md font-headline-md font-bold tracking-tight text-on-surface">EduFinder</span>
+</a>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-secondary font-semibold border-b-2 border-secondary pb-1 text-label-lg font-label-lg" href="#hero">Home</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-label-lg font-label-lg" href="#explore-section">Explore Colleges</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-label-lg font-label-lg" href="#popular-states-section">Popular States</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-label-lg font-label-lg" href="#value-prop-section">Why Us</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-label-lg font-label-lg" href="#footer-section">Admissions 2025</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-all active:scale-[0.98]" onclick="openEnquiryModal('General Admissions Consultation')">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+<span>Enquire</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md hover:bg-secondary-container transition-all active:scale-[0.98] shadow-sm" onclick="triggerToast('Sign In gateway active for verified student credentials.')">
+<span class="material-symbols-outlined text-[18px]">login</span>
+<span>Sign In</span>
+</button>
+</div>
+</div>
+</header>
+<!-- NavigationDrawer (Shared Component - Mobile Slide-out) -->
+<div class="fixed inset-0 bg-primary/40 backdrop-blur-sm z-50 hidden transition-opacity opacity-0" id="drawer-backdrop" onclick="closeDrawer()"></div>
+<aside class="fixed inset-y-0 left-0 w-80 max-w-[85vw] z-50 bg-surface-container-lowest shadow-2xl border-r border-outline-variant/30 flex flex-col h-full p-4 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out" id="nav-drawer">
+<div class="flex items-center justify-between pb-4 mb-4 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<span class="text-headline-lg font-headline-lg font-extrabold text-on-surface">College Directory Menu</span>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low" onclick="closeDrawer()">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-1.5 flex-1">
+<a class="bg-secondary/10 text-secondary font-semibold rounded-lg px-4 py-3 flex items-center gap-3 text-label-lg font-label-lg" href="#explore-section" onclick="closeDrawer()">
+<span class="material-symbols-outlined text-[20px]">search</span>
+<span>Explore Colleges</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low rounded-lg px-4 py-3 flex items-center gap-3 transition-colors text-label-lg font-label-lg" href="javascript:void(0)" onclick="closeDrawer(); openComparisonModal();">
+<span class="material-symbols-outlined text-[20px]">compare_arrows</span>
+<span>Compare Tool</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low rounded-lg px-4 py-3 flex items-center gap-3 transition-colors text-label-lg font-label-lg" href="#explore-section" onclick="closeDrawer(); filterByAdmission();">
+<span class="material-symbols-outlined text-[20px]">fact_check</span>
+<span>Admissions 2025</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low rounded-lg px-4 py-3 flex items-center gap-3 transition-colors text-label-lg font-label-lg" href="#explore-section" onclick="closeDrawer(); sortByRatingDesc();">
+<span class="material-symbols-outlined text-[20px]">hotel_class</span>
+<span>Rankings &amp; Reviews</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low rounded-lg px-4 py-3 flex items-center gap-3 transition-colors text-label-lg font-label-lg" href="javascript:void(0)" onclick="closeDrawer(); viewSavedColleges();">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+<span>Saved Colleges</span>
+</a>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 text-body-sm font-body-sm text-on-surface-variant">
+<p class="font-medium text-on-surface mb-1">Direct Helpline 2025</p>
+<p class="flex items-center gap-1.5 text-secondary font-semibold">
+<span class="material-symbols-outlined text-[16px]">call</span>
+        +91 (800) 245-8890
+      </p>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1">
+<!-- Hero Section -->
+<section class="relative pt-8 pb-14 lg:pt-14 lg:pb-20 overflow-hidden bg-gradient-to-b from-surface-container-low via-background to-background" id="hero"><div class="absolute inset-0 z-0 overflow-hidden pointer-events-none"><img alt="Diverse happy Indian college students smiling and studying together on modern vibrant university campus" class="w-full h-full object-cover object-center opacity-30 sm:opacity-35 scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaL58AlnTQ6W6skSXrmTw2WgAP8DTMB2iZ1-T4Vq5CpF0eDwiNVnk7TveHY22PkmxNfsLUrd-1Aks90KQunuNPjcqC0OEvQXPt5U33ZWENAhcUzFgn_hExkQ_e4piZtlxOPM3oVaifkp6uRUYczYVV1CftwzUv04yfRzh_6rKHPVLrC15QEwOiQAOUYJ_MEgez7Qw6p422FSb10ISrORCy-81oojcEZ5xmqN4jfeT9aZek7-74BITG"/><div class="absolute inset-0 bg-gradient-to-b from-[#0b1c30]/90 via-[#0b1c30]/75 to-background"></div><div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-secondary/20 rounded-full blur-3xl pointer-events-none"></div></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"><div class="text-center max-w-3xl mx-auto mb-10"><div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-lowest/20 backdrop-blur-md border border-surface-container-lowest/30 text-surface-container-lowest text-label-sm font-label-sm mb-4 shadow-sm"><span class="material-symbols-outlined text-[16px] text-tertiary-fixed">verified</span><span>Accredited Institutional Search • Admissions Batch 2025-26</span><span class="px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] font-bold uppercase tracking-wider ml-1">Live</span></div><h1 class="text-display-lg-mobile lg:text-display-lg font-display-lg text-surface-container-lowest tracking-tight leading-tight mb-4 drop-shadow-sm">Find the Right College for Your Future</h1><p class="text-body-lg font-body-lg text-surface-container-high/90 max-w-2xl mx-auto">Discover and compare accredited engineering &amp; technology campuses across India based on your location, budget, and admission criteria.</p><div class="flex flex-wrap items-center justify-center gap-3 mt-4"><span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/15 backdrop-blur-sm border border-surface-container-lowest/25 text-surface-container-lowest text-label-sm font-medium"><span>🎓</span> 500+ Campuses</span><span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/15 backdrop-blur-sm border border-surface-container-lowest/25 text-surface-container-lowest text-label-sm font-medium"><span>✨</span> 2025 Admissions Live</span><span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/15 backdrop-blur-sm border border-surface-container-lowest/25 text-surface-container-lowest text-label-sm font-medium"><span>⚡</span> Instant Quota Evaluation</span></div></div><div class="bg-surface-container-lowest/95 backdrop-blur-md rounded-2xl p-5 sm:p-7 shadow-2xl border border-surface-container-lowest/60 max-w-5xl mx-auto"><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5"><div class="lg:col-span-2"><label class="block text-label-md font-label-md text-on-surface-variant mb-1.5" for="hero-search">Institution Search</label><div class="relative"><span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-3 rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all bg-surface-container-lowest" id="hero-search" placeholder="Search colleges by name (e.g., RV College, COEP)..." type="text"/></div></div><div><label class="block text-label-md font-label-md text-on-surface-variant mb-1.5" for="hero-state">State / Region</label><div class="relative"><select class="w-full h-11 px-3 rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all bg-surface-container-lowest appearance-none" id="hero-state"><option value="ALL">All States</option><option value="Karnataka">Karnataka</option><option value="Maharashtra">Maharashtra</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option><option value="Delhi">Delhi NCR</option><option value="Kerala">Kerala</option></select><span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span></div></div><div><label class="block text-label-md font-label-md text-on-surface-variant mb-1.5" for="hero-distance">Proximity Radius</label><div class="relative"><select class="w-full h-11 px-3 rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all bg-surface-container-lowest appearance-none" id="hero-distance"><option value="ALL">Any Distance</option><option value="15">Within 15 km</option><option value="30">Within 30 km</option><option value="50">Within 50 km</option><option value="100">Within 100 km</option></select><span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span></div></div></div><div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-outline-variant/30"><div class="flex items-center gap-2 flex-wrap"><span class="text-label-md font-label-md text-on-surface-variant mr-1">Quota / Quota Type:</span><button class="hero-mgmt-pill px-3 py-1.5 rounded-full text-label-sm font-label-sm transition-all border border-secondary bg-secondary/10 text-secondary font-semibold" data-mgmt-val="ALL" onclick="setManagementHeroFilter('ALL')" type="button">All</button><button class="hero-mgmt-pill px-3 py-1.5 rounded-full text-label-sm font-label-sm transition-all border border-outline-variant bg-surface-container-low text-on-surface-variant hover:bg-surface-container" data-mgmt-val="General Management" onclick="setManagementHeroFilter('General Management')" type="button">General Management</button><button class="hero-mgmt-pill px-3 py-1.5 rounded-full text-label-sm font-label-sm transition-all border border-outline-variant bg-surface-container-low text-on-surface-variant hover:bg-surface-container" data-mgmt-val="NRI" onclick="setManagementHeroFilter('NRI')" type="button">NRI Seat Quota</button></div><div class="flex items-center gap-3 w-full sm:w-auto"><button class="text-label-md font-label-md text-outline hover:text-on-surface px-3 py-2 transition-colors" onclick="resetHeroFilters()">Reset</button><button class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-secondary text-on-secondary text-label-lg font-label-lg hover:bg-secondary-container transition-all active:scale-[0.98] shadow-sm" onclick="applyHeroSearch()"><span class="material-symbols-outlined text-[18px]">search</span><span>Search Colleges</span></button></div></div></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 max-w-4xl mx-auto text-center"><div class="p-3.5 bg-surface-container-lowest/80 backdrop-blur-md rounded-xl border border-outline-variant/30 shadow-sm"><div class="text-headline-md font-headline-md font-bold text-secondary">540+</div><div class="text-label-sm font-label-sm text-on-surface-variant font-medium">Verified Campuses</div></div><div class="p-3.5 bg-surface-container-lowest/80 backdrop-blur-md rounded-xl border border-outline-variant/30 shadow-sm"><div class="text-headline-md font-headline-md font-bold text-secondary">100%</div><div class="text-label-sm font-label-sm text-on-surface-variant font-medium">NAAC / NBA Validated</div></div><div class="p-3.5 bg-surface-container-lowest/80 backdrop-blur-md rounded-xl border border-outline-variant/30 shadow-sm"><div class="text-headline-md font-headline-md font-bold text-secondary">42,000+</div><div class="text-label-sm font-label-sm text-on-surface-variant font-medium">Student Reviews</div></div><div class="p-3.5 bg-surface-container-lowest/80 backdrop-blur-md rounded-xl border border-outline-variant/30 shadow-sm"><div class="text-headline-md font-headline-md font-bold text-secondary">Zero</div><div class="text-label-sm font-label-sm text-on-surface-variant font-medium">Hidden Brokerage</div></div></div></div></section>
+<!-- Popular States Section -->
+<section class="py-12 bg-surface-container-low/50 border-y border-outline-variant/30" id="popular-states-section"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4"><div><div class="text-label-md font-label-md text-secondary uppercase tracking-wider mb-1">Geographic Hubs</div><h2 class="text-headline-xl-mobile sm:text-headline-xl font-headline-xl text-on-surface">Popular Higher Education States</h2></div><p class="text-body-sm font-body-sm text-on-surface-variant max-w-md">Select any regional cluster below to view its interactive state map, top tech hubs, and accredited institutional quotas.</p></div><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6" id="state-pills-row"><button class="state-pill-btn group cursor-pointer text-left bg-surface-container-lowest p-3.5 rounded-xl border border-secondary bg-secondary/5 transition-all shadow-sm active:scale-[0.98]" data-state-id="Karnataka" onclick="displayInteractiveState('Karnataka')" type="button"><div class="w-9 h-9 rounded-lg bg-secondary text-on-secondary flex items-center justify-center mb-2.5 transition-colors"><span class="material-symbols-outlined text-[20px]">apartment</span></div><h3 class="text-title-sm font-title-sm text-secondary font-bold">Karnataka</h3><p class="text-label-sm font-label-sm text-on-surface-variant">140+ Colleges</p></button><button class="state-pill-btn group cursor-pointer text-left bg-surface-container-lowest hover:border-secondary p-3.5 rounded-xl border border-outline-variant/40 transition-all hover:shadow-sm active:scale-[0.98]" data-state-id="Maharashtra" onclick="displayInteractiveState('Maharashtra')" type="button"><div class="w-9 h-9 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-2.5 group-hover:bg-secondary group-hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">location_city</span></div><h3 class="text-title-sm font-title-sm text-on-surface font-semibold group-hover:text-secondary">Maharashtra</h3><p class="text-label-sm font-label-sm text-on-surface-variant">115+ Colleges</p></button><button class="state-pill-btn group cursor-pointer text-left bg-surface-container-lowest hover:border-secondary p-3.5 rounded-xl border border-outline-variant/40 transition-all hover:shadow-sm active:scale-[0.98]" data-state-id="Tamil Nadu" onclick="displayInteractiveState('Tamil Nadu')" type="button"><div class="w-9 h-9 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-2.5 group-hover:bg-secondary group-hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">domain</span></div><h3 class="text-title-sm font-title-sm text-on-surface font-semibold group-hover:text-secondary">Tamil Nadu</h3><p class="text-label-sm font-label-sm text-on-surface-variant">95+ Colleges</p></button><button class="state-pill-btn group cursor-pointer text-left bg-surface-container-lowest hover:border-secondary p-3.5 rounded-xl border border-outline-variant/40 transition-all hover:shadow-sm active:scale-[0.98]" data-state-id="Telangana" onclick="displayInteractiveState('Telangana')" type="button"><div class="w-9 h-9 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-2.5 group-hover:bg-secondary group-hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">account_balance</span></div><h3 class="text-title-sm font-title-sm text-on-surface font-semibold group-hover:text-secondary">Telangana</h3><p class="text-label-sm font-label-sm text-on-surface-variant">80+ Colleges</p></button><button class="state-pill-btn group cursor-pointer text-left bg-surface-container-lowest hover:border-secondary p-3.5 rounded-xl border border-outline-variant/40 transition-all hover:shadow-sm active:scale-[0.98]" data-state-id="Delhi" onclick="displayInteractiveState('Delhi')" type="button"><div class="w-9 h-9 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-2.5 group-hover:bg-secondary group-hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">assured_workload</span></div><h3 class="text-title-sm font-title-sm text-on-surface font-semibold group-hover:text-secondary">Delhi NCR</h3><p class="text-label-sm font-label-sm text-on-surface-variant">65+ Colleges</p></button><button class="state-pill-btn group cursor-pointer text-left bg-surface-container-lowest hover:border-secondary p-3.5 rounded-xl border border-outline-variant/40 transition-all hover:shadow-sm active:scale-[0.98]" data-state-id="Kerala" onclick="displayInteractiveState('Kerala')" type="button"><div class="w-9 h-9 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-2.5 group-hover:bg-secondary group-hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">nature_people</span></div><h3 class="text-title-sm font-title-sm text-on-surface font-semibold group-hover:text-secondary">Kerala</h3><p class="text-label-sm font-label-sm text-on-surface-variant">45+ Colleges</p></button></div><div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 shadow-sm p-5 sm:p-7 overflow-hidden" id="state-interactive-card"><div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"><div class="lg:col-span-7"><div class="flex items-center gap-2 mb-2"><span class="px-2.5 py-0.5 rounded text-label-sm font-semibold bg-secondary/10 text-secondary" id="state-map-badge">Southern Technical Corridor</span><span class="text-label-sm font-medium text-on-tertiary-container flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span> Active 2025 Admissions</span></div><h3 class="text-headline-lg font-headline-lg font-bold text-on-surface mb-2" id="state-map-title">Karnataka Higher Education Cluster</h3><p class="text-body-md font-body-md text-on-surface-variant mb-5" id="state-map-desc">Home to India's Silicon Valley with the dense concentration of top autonomous engineering institutions, research labs, and venture-backed tech incubators.</p><div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6"><div class="p-3 bg-surface-container-low/60 rounded-xl border border-outline-variant/30"><span class="text-label-sm font-label-sm text-outline block">Primary Exam</span><span class="text-body-sm font-semibold text-on-surface block truncate" id="state-map-exam">KCET / COMEDK</span></div><div class="p-3 bg-surface-container-low/60 rounded-xl border border-outline-variant/30"><span class="text-label-sm font-label-sm text-outline block">Average Tuition</span><span class="text-body-sm font-semibold text-on-surface block" id="state-map-fee">₹2.2L - ₹4.5L/yr</span></div><div class="col-span-2 sm:col-span-1 p-3 bg-surface-container-low/60 rounded-xl border border-outline-variant/30"><span class="text-label-sm font-label-sm text-outline block">Key Urban Hubs</span><span class="text-body-sm font-semibold text-on-surface block truncate" id="state-map-hubs">Bengaluru, Mysuru</span></div></div><div class="flex flex-wrap items-center gap-3"><button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold hover:bg-secondary-container transition-all shadow-sm active:scale-[0.98]" id="state-map-filter-btn" onclick="selectStateCluster('Karnataka')" type="button"><span class="material-symbols-outlined text-[18px]">filter_list</span><span id="state-filter-btn-text">Explore Karnataka Colleges</span></button><button class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors" onclick="triggerToast('Verified regional quota guidelines updated for 2025.')" type="button"><span class="material-symbols-outlined text-[18px]">verified</span><span>Counseling Matrix</span></button></div></div><div class="lg:col-span-5 flex justify-center"><div class="relative w-full max-w-[360px] aspect-[4/3] bg-surface-container-low rounded-2xl border border-outline-variant/40 p-4 flex items-center justify-center overflow-hidden shadow-inner" id="state-svg-wrapper"><svg class="w-full h-full text-secondary" id="state-map-svg" viewbox="0 0 320 240"><rect fill="#f8f9ff" height="240" rx="12" width="320"></rect><path d="M80 50 Q110 30 160 35 T240 60 Q260 110 240 170 T170 215 Q110 220 90 170 T70 110 Z" fill="#dae2fd" stroke="#0051d5" stroke-dasharray="4 2" stroke-width="2"></path><circle cx="170" cy="140" fill="#0051d5" r="8"></circle><circle class="animate-ping" cx="170" cy="140" fill="#0051d5" opacity="0.2" r="16"></circle><text fill="#0b1c30" font-family="Plus Jakarta Sans" font-size="12" font-weight="bold" text-anchor="middle" x="170" y="168">Bengaluru Hub</text><circle cx="120" cy="165" fill="#0051d5" r="5"></circle><text fill="#45464d" font-family="Plus Jakarta Sans" font-size="10" text-anchor="middle" x="120" y="182">Mysuru</text><circle cx="115" cy="90" fill="#0051d5" r="5"></circle><text fill="#45464d" font-family="Plus Jakarta Sans" font-size="10" text-anchor="middle" x="115" y="108">Hubballi</text><circle cx="205" cy="95" fill="#0051d5" r="5"></circle><text fill="#45464d" font-family="Plus Jakarta Sans" font-size="10" text-anchor="middle" x="205" y="113">Ballari</text></svg></div></div></div></div></div></section>
+<!-- Explore Colleges Section (Core Feature) -->
+<section class="py-12 lg:py-16" id="explore-section">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Header / Control bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-outline-variant/30">
+<div>
+<h2 class="text-headline-xl-mobile sm:text-headline-xl font-headline-xl text-on-surface">Explore Institutions</h2>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-label-lg font-label-lg text-secondary font-bold" id="results-count">Showing 10 Colleges Found</span>
+<span class="text-on-surface-variant text-label-md">• Verified Admissions 2025</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- Mobile Filter Modal Toggle -->
+<button class="lg:hidden inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors" onclick="toggleMobileFilterDrawer(true)">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Filter Options</span>
+<span class="w-5 h-5 rounded-full bg-secondary text-on-secondary text-label-sm flex items-center justify-center hidden" id="mobile-filter-badge">0</span>
+</button>
+<!-- Sort By Selector -->
+<div class="relative flex items-center">
+<label class="sr-only" for="sort-select">Sort by</label>
+<span class="text-label-md font-label-md text-on-surface-variant mr-2 hidden sm:inline">Sort by:</span>
+<div class="relative">
+<select class="h-10 pl-3 pr-8 rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface bg-surface-container-lowest appearance-none focus:border-secondary focus:ring-1 focus:ring-secondary" id="sort-select" onchange="applySorting()">
+<option value="relevance">Relevance</option>
+<option value="dist_asc">Distance: Low to High</option>
+<option value="dist_desc">Distance: High to Low</option>
+<option value="rating_desc">Rating: High to Low</option>
+<option value="name_asc">Name: A-Z</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Layout Grid: Desktop Sidebar (3 cols) + College Card Feed (9 cols) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Desktop Sidebar Filters -->
+<aside class="hidden lg:block lg:col-span-3 sticky top-24 space-y-6 bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/40 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<h3 class="text-title-sm font-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">filter_alt</span>
+                Filters
+              </h3>
+<button class="text-label-sm font-label-sm text-secondary hover:underline" onclick="resetAllFilters()">Clear All</button>
+</div>
+<!-- State Filter -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold" for="filter-state">State / Region</label>
+<select class="w-full h-10 px-3 rounded-lg border border-outline-variant text-body-sm font-body-sm text-on-surface bg-surface-container-lowest" id="filter-state" onchange="triggerFiltersUpdate()">
+<option value="ALL">All States</option>
+<option value="Karnataka">Karnataka</option>
+<option value="Maharashtra">Maharashtra</option>
+<option value="Tamil Nadu">Tamil Nadu</option>
+<option value="Telangana">Telangana</option>
+<option value="Delhi">Delhi</option>
+<option value="Kerala">Kerala</option>
+</select>
+</div>
+<!-- Distance Filter -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold">Maximum Distance</label>
+<div class="space-y-2">
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input checked="" class="text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" name="distance_rad" onchange="triggerFiltersUpdate()" type="radio" value="ALL"/>
+<span>Any Proximity</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input class="text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" name="distance_rad" onchange="triggerFiltersUpdate()" type="radio" value="15"/>
+<span>Within 15 km</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input class="text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" name="distance_rad" onchange="triggerFiltersUpdate()" type="radio" value="30"/>
+<span>Within 30 km</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input class="text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" name="distance_rad" onchange="triggerFiltersUpdate()" type="radio" value="50"/>
+<span>Within 50 km</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input class="text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" name="distance_rad" onchange="triggerFiltersUpdate()" type="radio" value="100"/>
+<span>Within 100 km</span>
+</label>
+</div>
+</div>
+<!-- Management Type Checkboxes -->
+<div class="pt-2 border-t border-outline-variant/30">
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold">Management Quota</label>
+<div class="space-y-2.5">
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input checked="" class="rounded text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" id="mgmt-general" onchange="triggerFiltersUpdate()" type="checkbox" value="General Management"/>
+<span>General Management</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input checked="" class="rounded text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" id="mgmt-nri" onchange="triggerFiltersUpdate()" type="checkbox" value="NRI"/>
+<span>NRI Seat Quota</span>
+</label>
+</div>
+</div>
+<!-- Accreditation Filter -->
+<div class="pt-2 border-t border-outline-variant/30">
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold">Accreditation</label>
+<div class="flex flex-wrap gap-2">
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-secondary font-semibold text-label-sm border border-outline-variant/50">NAAC A++</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant text-label-sm border border-outline-variant/50">NBA Tier 1</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant text-label-sm border border-outline-variant/50">Autonomous</span>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-lg bg-on-surface text-surface-container-lowest text-label-md font-label-md hover:bg-primary-container transition-all active:scale-[0.98]" onclick="triggerFiltersUpdate()">
+              Apply Filters
+            </button>
+</aside>
+<!-- College Card Feed (9 cols) -->
+<div class="col-span-1 lg:col-span-9 space-y-5">
+<!-- Active filter chips container -->
+<div class="flex flex-wrap items-center gap-2 hidden" id="active-filter-chips">
+<span class="text-label-sm font-label-sm text-outline">Active Filters:</span>
+<div class="flex flex-wrap items-center gap-2" id="chips-list"></div>
+<button class="text-label-sm font-label-sm text-secondary hover:underline ml-1" onclick="resetAllFilters()">Reset</button>
+</div>
+<!-- College Cards List Container -->
+<div class="space-y-4" id="colleges-container">
+<!-- Cards rendered via JS -->
+</div>
+<!-- Empty State -->
+<div class="hidden text-center py-16 bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-8" id="empty-state">
+<div class="w-16 h-16 rounded-full bg-surface-container-low text-outline flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-[32px]">manage_search</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface mb-2">No Matching Institutions Found</h3>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-md mx-auto mb-6">
+                Try expanding your proximity radius, switching state selections, or resetting quota checkboxes.
+              </p>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md hover:bg-secondary-container transition-all" onclick="resetAllFilters()">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span>Reset All Filters</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Value Proposition & How It Works Section -->
+<section class="py-14 bg-gradient-to-b from-background to-surface-container-low border-t border-outline-variant/30 relative overflow-hidden" id="campus-spotlight"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"><div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 shadow-lg overflow-hidden"><div class="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center"><div class="lg:col-span-6 p-6 sm:p-10 lg:p-12 space-y-5"><div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20"><span class="material-symbols-outlined text-[16px]">school</span><span>Campus Life &amp; Student Satisfaction</span></div><h2 class="text-headline-xl-mobile sm:text-headline-xl font-headline-xl text-on-surface font-bold leading-tight">Step Confidently into Your Dream University</h2><p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">Join over 42,000 students who benchmarked cutoffs, visited campuses, and unlocked direct merit scholarships through EduFinder's verified institutional portal.</p><div class="grid grid-cols-2 gap-3 pt-2"><div class="p-3 rounded-xl bg-surface-container-low/80 border border-outline-variant/30"><div class="flex items-center gap-1.5 text-title-sm font-bold text-on-surface"><span class="material-symbols-outlined text-secondary text-[20px]">thumb_up</span> 96.8%</div><span class="text-label-sm font-label-sm text-on-surface-variant">Counseling Satisfaction</span></div><div class="p-3 rounded-xl bg-surface-container-low/80 border border-outline-variant/30"><div class="flex items-center gap-1.5 text-title-sm font-bold text-on-surface"><span class="material-symbols-outlined text-secondary text-[20px]">schedule</span> &lt; 24 Hrs</div><span class="text-label-sm font-label-sm text-on-surface-variant">Verified Desk Response</span></div></div><div class="flex flex-wrap items-center gap-3 pt-2"><button class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold hover:bg-secondary-container transition-all shadow-sm active:scale-[0.98]" onclick="openEnquiryModal('Campus Life &amp; Direct Admissions Consultation')" type="button"><span class="material-symbols-outlined text-[18px]">support_agent</span><span>Talk to Admission Counselor</span></button><a class="inline-flex items-center gap-1.5 px-4 py-3 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors" href="#explore-section"><span class="material-symbols-outlined text-[18px]">travel_explore</span><span>Browse 2025 Colleges</span></a></div></div><div class="lg:col-span-6 relative h-72 sm:h-96 lg:h-[460px] overflow-hidden bg-surface-container-high"><img alt="Group of young Indian university students smiling candidly, holding books and tablet in modern college library campus courtyard" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD76hy2nbZ-zO67yyRtk4NEVBd--F-i-YwwK4PtQIZqWbuK5GR85_0symFE-jSKRUHBNBYAmRzGbjYnnMoydB0qblPDu6-zI9WZ5tOgBoaOgc-9UGLmItrJg0Em3MT3P5t87vT1YIIweGj0SIft_eZpbcxXnVIsknlo9nwHiyFvQfHrQ1kIn8CMyLM6wQdSr8j_i6mYpVyn7_kOUiBqDVEiB42kbN6hcbjmqI5TbpFgRDVvIIXPCQdQ"/><div class="absolute inset-0 bg-gradient-to-t from-[#0b1c30]/70 via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#ffffff]/20 lg:to-transparent pointer-events-none"></div><div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md border border-surface-container-lowest shadow-md flex items-center justify-between gap-3"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary"><span class="material-symbols-outlined text-[22px]">groups</span></div><div><p class="text-label-md font-bold text-on-surface">Batch of 2025-26</p><p class="text-body-sm text-on-surface-variant">Accredited &amp; autonomous engineering seats</p></div></div><span class="px-2.5 py-1 rounded bg-secondary text-on-secondary text-label-sm font-semibold shrink-0">Open</span></div></div></div></div></div></section><section class="py-16 bg-surface-container-low/60 border-t border-outline-variant/30" id="value-prop-section">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-3xl mx-auto mb-14">
+<div class="text-label-md font-label-md text-secondary uppercase tracking-wider mb-2">Decision Intelligence</div>
+<h2 class="text-headline-xl-mobile sm:text-headline-xl font-headline-xl text-on-surface mb-4">
+            Why Students &amp; Families Rely on EduFinder
+          </h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">
+            We eliminate uncertainty from admission counselling with verified metrics, fee transparency, and direct institutional criteria.
+          </p>
+</div>
+<!-- 4-Card Bento Grid for Why Us -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[26px]">travel_explore</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Find Colleges Easily</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                Search through dozens of recognized universities and autonomous colleges mapped with exact distance calculations.
+              </p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[26px]">tune</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Smart Filters</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                Refine by state borders, proximity radiuses, general quotas, and specialized NRI admission allocations seamlessly.
+              </p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[26px]">compare_arrows</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Compare Colleges</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                Pin up to 3 colleges side-by-side to cross-examine tuition fees, entrance exams, accreditation, and hostel facilities.
+              </p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[26px]">verified</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Verified Info</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                Institutional accreditation, NAAC certifications, and verified NIRF statistics with direct admission contact records.
+              </p>
+</div>
+</div>
+</div>
+<!-- 3-Step Guide -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 sm:p-12 border border-outline-variant/40 shadow-sm">
+<div class="text-center max-w-xl mx-auto mb-10">
+<h3 class="text-headline-lg font-headline-lg text-on-surface mb-2">How It Works in 3 Simple Steps</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Your streamlined admission pathway from benchmark to enrollment.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-14 h-14 rounded-2xl bg-secondary text-on-secondary font-headline-lg text-headline-md flex items-center justify-center shadow-md mb-4 font-bold">1</div>
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Select Preferences</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Choose your target state, location radius, desired engineering streams, and management quota type.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-14 h-14 rounded-2xl bg-secondary text-on-secondary font-headline-lg text-headline-md flex items-center justify-center shadow-md mb-4 font-bold">2</div>
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Explore Matching Colleges</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Browse verified cards, filter entrance exam scores (KCET, COMEDK, JEE), and inspect campus amenities.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-14 h-14 rounded-2xl bg-secondary text-on-secondary font-headline-lg text-headline-md flex items-center justify-center shadow-md mb-4 font-bold">3</div>
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Compare &amp; Choose</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Run a side-by-side benchmark matrix and connect directly with authorized college admission desks.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Comparison Floating Bar -->
+<aside class="fixed bottom-0 sm:bottom-4 inset-x-0 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 w-full sm:w-[92%] sm:max-w-3xl z-40 bg-on-surface text-surface-container-lowest p-3.5 sm:rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-32 opacity-0 pointer-events-none border border-outline-variant/30" id="comparison-dock">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 overflow-x-auto custom-scrollbar py-1">
+<div class="flex items-center gap-2 whitespace-nowrap">
+<span class="material-symbols-outlined text-tertiary-fixed text-[20px]">compare_arrows</span>
+<span class="text-label-md font-label-md font-semibold text-surface-container-lowest" id="compare-tray-counter">Comparison (0/3 colleges)</span>
+</div>
+<div class="flex items-center gap-2" id="comparison-chips-tray">
+<!-- Chips injected by JS -->
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="p-1.5 rounded-lg text-outline-variant hover:text-surface-container-lowest text-label-sm hover:bg-inverse-surface transition-colors" onclick="clearComparison()" title="Clear All">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+</button>
+<button class="px-4 py-2 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold hover:bg-secondary-container transition-all active:scale-[0.98] shadow-sm" id="compare-now-btn" onclick="openComparisonModal()">
+          Compare Now (0)
+        </button>
+</div>
+</div>
+</aside>
+<!-- Mobile Filter Drawer Modal -->
+<div class="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm hidden flex-col justify-end" id="mobile-filter-modal">
+<div class="bg-surface-container-lowest rounded-t-2xl max-h-[751px] overflow-y-auto p-5 space-y-5">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">tune</span>
+<h3 class="text-headline-md font-headline-md text-on-surface font-semibold">Filter Institutions</h3>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low" onclick="toggleMobileFilterDrawer(false)">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- State -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold" for="mobile-filter-state">State / Region</label>
+<select class="w-full h-11 px-3 rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface bg-surface-container-lowest" id="mobile-filter-state">
+<option value="ALL">All States</option>
+<option value="Karnataka">Karnataka</option>
+<option value="Maharashtra">Maharashtra</option>
+<option value="Tamil Nadu">Tamil Nadu</option>
+<option value="Telangana">Telangana</option>
+<option value="Delhi">Delhi NCR</option>
+<option value="Kerala">Kerala</option>
+</select>
+</div>
+<!-- Distance -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold">Proximity Radius</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="flex items-center gap-2 p-2.5 rounded-lg border border-outline-variant/60 bg-surface-container-low text-body-sm">
+<input checked="" class="text-secondary" name="mobile_distance_rad" type="radio" value="ALL"/>
+<span>Any Distance</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg border border-outline-variant/60 bg-surface-container-low text-body-sm">
+<input class="text-secondary" name="mobile_distance_rad" type="radio" value="15"/>
+<span>&lt; 15 km</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg border border-outline-variant/60 bg-surface-container-low text-body-sm">
+<input class="text-secondary" name="mobile_distance_rad" type="radio" value="30"/>
+<span>&lt; 30 km</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg border border-outline-variant/60 bg-surface-container-low text-body-sm">
+<input class="text-secondary" name="mobile_distance_rad" type="radio" value="50"/>
+<span>&lt; 50 km</span>
+</label>
+</div>
+</div>
+<!-- Management -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2 font-semibold">Management Allocation</label>
+<div class="space-y-2">
+<label class="flex items-center gap-2.5 text-body-sm">
+<input checked="" class="rounded text-secondary" id="mobile-mgmt-general" type="checkbox" value="General Management"/>
+<span>General Management Quota</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-sm">
+<input checked="" class="rounded text-secondary" id="mobile-mgmt-nri" type="checkbox" value="NRI"/>
+<span>NRI Seat Quota</span>
+</label>
+</div>
+</div>
+<div class="pt-3 border-t border-outline-variant/30 flex items-center gap-3">
+<button class="flex-1 py-3 rounded-lg border border-outline-variant text-label-md font-label-md text-on-surface" onclick="resetAllFilters(); toggleMobileFilterDrawer(false);">Reset</button>
+<button class="flex-1 py-3 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold" onclick="applyMobileFilters()">Apply Filters</button>
+</div>
+</div>
+</div>
+<!-- College Details Modal / View -->
+<div class="fixed inset-0 z-50 bg-primary/50 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 overflow-y-auto" id="details-modal">
+<div class="bg-surface-container-lowest rounded-2xl w-full max-w-3xl max-h-[813px] overflow-hidden flex flex-col shadow-2xl border border-outline-variant/40 animate-in fade-in zoom-in-95 duration-200">
+<!-- Modal Header -->
+<div class="p-5 sm:p-6 border-b border-outline-variant/30 flex items-start justify-between bg-surface-container-low/40">
+<div class="flex items-start gap-4">
+<div class="w-14 h-14 rounded-2xl bg-secondary text-on-secondary font-headline-md text-headline-md font-bold flex items-center justify-center shrink-0 shadow-sm" id="modal-college-avatar">
+            RV
+          </div>
+<div>
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary/10 text-secondary border border-secondary/20" id="modal-mgmt-badge">General Management</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-tertiary-container text-on-tertiary-container font-semibold" id="modal-accreditation">NAAC A++</span>
+<span class="flex items-center gap-1 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-outline">distance</span>
+<span id="modal-distance">18 km away</span>
+</span>
+</div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface leading-tight" id="modal-college-name">RV College of Engineering</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5" id="modal-college-location">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              Bengaluru, Karnataka
+            </p>
+</div>
+</div>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" onclick="closeDetailsModal()">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<!-- Modal Tabs Navigation -->
+<div class="flex items-center gap-1 sm:gap-4 px-5 sm:px-6 border-b border-outline-variant/30 overflow-x-auto bg-surface-container-lowest">
+<button class="modal-tab-btn py-3 px-2 border-b-2 border-secondary text-secondary font-semibold text-label-md font-label-md whitespace-nowrap" data-tab="overview" onclick="switchModalTab('overview')">Overview</button>
+<button class="modal-tab-btn py-3 px-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface text-label-md font-label-md whitespace-nowrap" data-tab="courses" onclick="switchModalTab('courses')">Courses &amp; Fees</button>
+<button class="modal-tab-btn py-3 px-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface text-label-md font-label-md whitespace-nowrap" data-tab="admissions" onclick="switchModalTab('admissions')">Admissions</button>
+<button class="modal-tab-btn py-3 px-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface text-label-md font-label-md whitespace-nowrap" data-tab="facilities" onclick="switchModalTab('facilities')">Facilities</button>
+<button class="modal-tab-btn py-3 px-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface text-label-md font-label-md whitespace-nowrap" data-tab="contact" onclick="switchModalTab('contact')">Contact Desk</button>
+</div>
+<!-- Modal Content Body -->
+<div class="p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar text-body-md font-body-md text-on-surface-variant">
+<!-- Overview Tab -->
+<div class="modal-tab-pane space-y-5" id="tab-overview">
+<div>
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold mb-2">Institutional Profile</h4>
+<p class="text-body-md font-body-md text-on-surface leading-relaxed" id="modal-description"></p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/40">
+<span class="text-label-sm font-label-sm text-outline block">Established</span>
+<span class="text-title-sm font-title-sm text-on-surface font-semibold" id="modal-established">1963</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/40">
+<span class="text-label-sm font-label-sm text-outline block">Student Rating</span>
+<span class="text-title-sm font-title-sm text-on-tertiary-container font-semibold flex items-center gap-1" id="modal-rating">
+                4.8 ★
+              </span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/40">
+<span class="text-label-sm font-label-sm text-outline block">Annual Tuition</span>
+<span class="text-title-sm font-title-sm text-on-surface font-semibold" id="modal-fees-metric">₹2.8L - ₹4.5L</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/40">
+<span class="text-label-sm font-label-sm text-outline block">Campus Reviews</span>
+<span class="text-title-sm font-title-sm text-on-surface font-semibold" id="modal-reviews-count">1,240</span>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-secondary/5 border border-secondary/20">
+<h5 class="text-title-sm font-title-sm text-secondary font-semibold mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+              Accreditation &amp; Ranking Highlights
+            </h5>
+<p class="text-body-sm font-body-sm text-on-surface">Recognized among the premier engineering institutions in South Asia. NIRF Top 100 benchmarked with Tier 1 Washington Accord accreditation.</p>
+</div>
+</div>
+<!-- Courses & Fees Tab -->
+<div class="modal-tab-pane hidden space-y-4" id="tab-courses">
+<div class="flex items-center justify-between">
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold">Available Engineering &amp; Tech Majors</h4>
+<span class="px-2.5 py-1 rounded bg-secondary/10 text-secondary font-semibold text-label-sm" id="modal-fee-range-badge">Fee: ₹2.5L - ₹4.5L / yr</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="modal-courses-list">
+<!-- Dynamic courses chips -->
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/40 text-body-sm">
+<p class="font-semibold text-on-surface mb-1">Scholarships &amp; Fee Concessions:</p>
+<p>Merit scholarships available for top 5% rankers in KCET/COMEDK and JEE Main with 95+ percentile.</p>
+</div>
+</div>
+<!-- Admissions Tab -->
+<div class="modal-tab-pane hidden space-y-4" id="tab-admissions">
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold">Admissions Criteria 2025</h4>
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/40">
+<p class="text-body-md font-body-md text-on-surface font-medium" id="modal-admission-info"></p>
+</div>
+<div class="space-y-2">
+<h5 class="text-label-lg font-label-lg text-on-surface font-semibold">Eligibility Checklist:</h5>
+<ul class="list-disc list-inside space-y-1 text-body-sm">
+<li>10+2 or equivalent with Physics and Mathematics as compulsory subjects.</li>
+<li>Minimum 45% aggregate in PCM (40% for reserved categories).</li>
+<li>Valid scorecard in designated entrance test (KCET / COMEDK / JEE Main / Institutional Test).</li>
+</ul>
+</div>
+</div>
+<!-- Facilities Tab -->
+<div class="modal-tab-pane hidden space-y-4" id="tab-facilities">
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold">Campus Infrastructure &amp; Amenities</h4>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="modal-facilities-list">
+<!-- Facilities injected -->
+</div>
+</div>
+<!-- Contact Desk Tab -->
+<div class="modal-tab-pane hidden space-y-4" id="tab-contact">
+<h4 class="text-title-sm font-title-sm text-on-surface font-semibold">Authorized Admissions Office</h4>
+<div class="space-y-3 p-4 bg-surface-container-low rounded-xl border border-outline-variant/40">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">location_on</span>
+<div>
+<span class="text-label-sm font-label-sm text-outline block">Campus Address</span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium" id="modal-contact-address"></span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">call</span>
+<div>
+<span class="text-label-sm font-label-sm text-outline block">Helpline Number</span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium" id="modal-contact-phone"></span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">mail</span>
+<div>
+<span class="text-label-sm font-label-sm text-outline block">Official Email</span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium" id="modal-contact-email"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-4 sm:p-5 border-t border-outline-variant/30 bg-surface-container-low/40 flex items-center justify-between gap-3">
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-lowest transition-colors" id="modal-bookmark-btn" onclick="toggleModalBookmark()">
+<span class="material-symbols-outlined text-[18px]" id="modal-bookmark-icon">bookmark_border</span>
+<span id="modal-bookmark-text">Save College</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-2 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-lowest transition-colors" id="modal-compare-toggle-btn" onclick="toggleModalComparison()">
+            + Compare
+          </button>
+<button class="px-5 py-2 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold hover:bg-secondary-container transition-all active:scale-[0.98] shadow-sm" onclick="openEnquiryFromModal()">
+            Enquire / Apply Now
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Comparison Modal (Side-by-side Table) -->
+<div class="fixed inset-0 z-50 bg-primary/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 overflow-y-auto" id="comparison-modal">
+<div class="bg-surface-container-lowest rounded-2xl w-full max-w-5xl max-h-[813px] overflow-hidden flex flex-col shadow-2xl border border-outline-variant/40 animate-in fade-in duration-200">
+<div class="p-5 border-b border-outline-variant/30 flex items-center justify-between bg-surface-container-low/50">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface font-bold">Institutional Comparison Matrix</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Benchmark key academic metrics, quotas, and criteria side-by-side.</p>
+</div>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" onclick="closeComparisonModal()">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<div class="p-5 overflow-x-auto flex-1 custom-scrollbar">
+<div id="comparison-matrix-container">
+<!-- Comparison table rendered here -->
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-low/40 flex justify-between items-center">
+<button class="text-label-md font-label-md text-error hover:underline flex items-center gap-1" onclick="clearComparison(); closeComparisonModal();">
+<span class="material-symbols-outlined text-[16px]">clear_all</span>
+          Clear Comparison Tray
+        </button>
+<button class="px-5 py-2 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md" onclick="closeComparisonModal()">Close Matrix</button>
+</div>
+</div>
+</div>
+<!-- Lead Capture / Enquiry Modal -->
+<div class="fixed inset-0 z-50 bg-primary/50 backdrop-blur-sm hidden items-center justify-center p-4" id="enquiry-modal">
+<div class="bg-surface-container-lowest rounded-2xl w-full max-w-md p-6 shadow-2xl border border-outline-variant/40 relative">
+<button class="absolute top-4 right-4 p-1 rounded-lg text-outline hover:text-on-surface" onclick="closeEnquiryModal()">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+<div class="mb-4">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-[22px]">send</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface font-semibold">Direct Admission Desk</h3>
+<p class="text-body-sm font-body-sm text-secondary font-medium" id="enquiry-target-college">General Admissions Consultation</p>
+</div>
+<form class="space-y-3.5" onsubmit="handleEnquirySubmit(event)">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface mb-1" for="enq-name">Student Full Name</label>
+<input class="w-full h-10 px-3 rounded-lg border border-outline-variant text-body-sm focus:border-secondary focus:ring-1 focus:ring-secondary" id="enq-name" placeholder="e.g. Rahul Sharma" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface mb-1" for="enq-phone">Contact Mobile Number</label>
+<input class="w-full h-10 px-3 rounded-lg border border-outline-variant text-body-sm focus:border-secondary focus:ring-1 focus:ring-secondary" id="enq-phone" placeholder="+91 98765 43210" required="" type="tel"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface mb-1" for="enq-course">Preferred Academic Course</label>
+<select class="w-full h-10 px-3 rounded-lg border border-outline-variant text-body-sm focus:border-secondary focus:ring-1 focus:ring-secondary" id="enq-course">
+<option>Computer Science &amp; Engineering (CSE)</option>
+<option>Artificial Intelligence &amp; Data Science (AI/ML)</option>
+<option>Electronics &amp; Communication (ECE)</option>
+<option>Information Science &amp; Tech (ISE)</option>
+<option>Mechanical &amp; Automation (Mech)</option>
+</select>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface mb-1" for="enq-notes">Academic Scores / Queries (Optional)</label>
+<textarea class="w-full p-2.5 rounded-lg border border-outline-variant text-body-sm focus:border-secondary focus:ring-1 focus:ring-secondary" id="enq-notes" placeholder="Mention KCET/COMEDK/JEE rank or NRI seat inquiry..." rows="2"></textarea>
+</div>
+<button class="w-full py-2.5 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold hover:bg-secondary-container transition-all active:scale-[0.98]" type="submit">
+          Request Immediate Callback
+        </button>
+</form>
+</div>
+</div>
+<!-- BottomNavBar (Shared Component - Mobile Only Destination Filter) -->
+<nav class="fixed bottom-0 left-0 w-full z-40 md:hidden bg-surface-container-lowest/95 backdrop-blur-md shadow-lg border-t border-outline-variant/40 flex justify-around items-center h-16 px-4">
+<a class="flex flex-col items-center justify-center text-secondary font-semibold py-1" href="#hero">
+<span class="material-symbols-outlined text-[22px]">explore</span>
+<span class="text-label-sm font-label-sm">Discover</span>
+</a>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface py-1 transition-colors relative" onclick="openComparisonModal()">
+<span class="material-symbols-outlined text-[22px]">compare_arrows</span>
+<span class="text-label-sm font-label-sm">Compare</span>
+<span class="absolute top-0 right-2 w-4 h-4 rounded-full bg-secondary text-on-secondary text-[10px] font-bold flex items-center justify-center hidden" id="bottom-nav-compare-badge">0</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface py-1 transition-colors relative" onclick="viewSavedColleges()">
+<span class="material-symbols-outlined text-[22px]">favorite</span>
+<span class="text-label-sm font-label-sm">Shortlist</span>
+<span class="absolute top-0 right-2 w-4 h-4 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-bold flex items-center justify-center hidden" id="bottom-nav-saved-badge">0</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface py-1 transition-colors" onclick="triggerToast('Sign in for profile management.')">
+<span class="material-symbols-outlined text-[22px]">account_circle</span>
+<span class="text-label-sm font-label-sm">Account</span>
+</button>
+</nav>
+<!-- Toast Notification Container -->
+<div class="fixed top-20 right-4 z-50 max-w-sm px-4 py-3 rounded-xl bg-on-surface text-surface-container-lowest shadow-xl border border-outline-variant/30 text-label-md font-label-md flex items-center gap-2 transform translate-y-[-20px] opacity-0 pointer-events-none transition-all duration-300" id="toast">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]">info</span>
+<span id="toast-text">Message</span>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant/40 mt-auto pb-20 md:pb-0" id="footer-section">
+<div class="w-full py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+<div class="md:col-span-2">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<span class="text-headline-md font-headline-md font-bold text-on-surface">EduFinder</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant max-w-md mb-4">
+            India's dedicated institutional benchmarking and college admissions engine. Providing transparent cutoffs, fee structures, and proximity search for prospective students and counselors.
+          </p>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="inline-flex items-center gap-1 text-label-sm font-label-sm text-tertiary-container font-semibold">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">check_circle</span>
+              100% Verified Accreditations
+            </span>
+</div>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-3">Institutional Links</h4>
+<ul class="space-y-2 text-label-sm font-label-sm">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#hero">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="javascript:void(0)" onclick="triggerToast('NIRF 2024-2025 verified metric data applied.')">NIRF Methodology</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="javascript:void(0)" onclick="triggerToast('Admissions guidelines PDF handbook queued for download.')">College Admissions Guide</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="javascript:void(0)" onclick="triggerToast('Campus partner verification portal open.')">Campus Partner Network</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-3">Legal &amp; Policy</h4>
+<ul class="space-y-2 text-label-sm font-label-sm">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="javascript:void(0)" onclick="triggerToast('Privacy Policy verified according to IT Act regulations.')">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="javascript:void(0)" onclick="triggerToast('Institutional search terms of service.')">Terms of Service</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="javascript:void(0)" onclick="triggerToast('Compliance with AICTE/UGC disclosures verified.')">Regulatory Compliance</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-body-sm font-body-sm text-on-surface-variant">
+<p>© 2025 EduFinder Discovery Inc. All verified institutional data and accreditation marks reserved.</p>
+<p class="text-label-sm font-label-sm text-outline">Engineered with high-density institutional discovery standards.</p>
+</div>
+</div>
+</footer>
+<!-- Application Logic & Mock Service Script -->
+<script>
+    // 1. Mock College Service & Data
+    const COLLEGE_DATA = [
+      {
+        id: "col-1",
+        name: "RV College of Engineering",
+        city: "Bengaluru",
+        state: "Karnataka",
+        distance: 18,
+        managementType: "General Management",
+        shortDescription: "Consistently ranked among the top autonomous engineering colleges in India with world-class faculty and industry-driven R&D hubs.",
+        rating: 4.8,
+        reviewCount: 1420,
+        courses: ["CSE", "ISE", "ECE", "AI/ML", "Mech"],
+        feeRange: "₹2.8L - ₹4.5L / year",
+        accreditation: "NAAC A++",
+        established: 1963,
+        facilities: ["Advanced AI Labs", "Central Library", "Separate Hostels", "Campus Wi-Fi", "Sports Arena", "Incubation Hub"],
+        admissionInfo: "KCET, COMEDK, JEE Main scores accepted. 2025 Admissions Open with merit cutoffs.",
+        contact: {
+          email: "admissions@rvce.edu.in",
+          phone: "+91 80 6818 8100",
+          address: "Mysore Road, RV Vidyanikethan Post, Bengaluru, Karnataka 560059"
+        }
+      },
+      {
+        id: "col-2",
+        name: "BMS Institute of Technology & Management",
+        city: "Bengaluru",
+        state: "Karnataka",
+        distance: 12,
+        managementType: "General Management",
+        shortDescription: "Renowned technical institute known for exceptional computing placements, international student symposiums, and robust innovation labs.",
+        rating: 4.6,
+        reviewCount: 980,
+        courses: ["CSE", "AI/ML", "ECE", "Mech"],
+        feeRange: "₹2.2L - ₹3.8L / year",
+        accreditation: "NAAC A+",
+        established: 2002,
+        facilities: ["Robotics Labs", "Digital Library", "Boys & Girls Hostel", "High-Speed Wi-Fi", "Gym & Sports"],
+        admissionInfo: "KCET & COMEDK rank allocation. Direct management counseling active for 2025.",
+        contact: {
+          email: "principal@bmsit.in",
+          phone: "+91 80 2856 1576",
+          address: "Doddaballapur Main Road, Avalahalli, Yelahanka, Bengaluru, Karnataka 560064"
+        }
+      },
+      {
+        id: "col-3",
+        name: "Ramaiah Institute of Technology - NRI Wing",
+        city: "Bengaluru",
+        state: "Karnataka",
+        distance: 14,
+        managementType: "NRI",
+        shortDescription: "Dedicated international and NRI quota academic wing providing global technical curriculum and extensive multinational hiring drives.",
+        rating: 4.7,
+        reviewCount: 1120,
+        courses: ["CSE", "ISE", "ECE", "AI/ML"],
+        feeRange: "₹4.5L - ₹7.5L / year",
+        accreditation: "NAAC A++",
+        established: 1962,
+        facilities: ["Global Research Centers", "Multi-Tier Library", "AC NRI Hostels", "High-Speed Wi-Fi", "Olympic Pool"],
+        admissionInfo: "Direct NRI Quota evaluation based on 10+2/SAT/JEE credentials. 2025 International Seat Matrix published.",
+        contact: {
+          email: "nri-admissions@msrit.edu",
+          phone: "+91 80 2360 0822",
+          address: "MSR Nagar, MSRIT Post, Mathikere, Bengaluru, Karnataka 560054"
+        }
+      },
+      {
+        id: "col-4",
+        name: "College of Engineering, Pune (COEP)",
+        city: "Pune",
+        state: "Maharashtra",
+        distance: 35,
+        managementType: "General Management",
+        shortDescription: "One of the oldest premier engineering institutions in Asia, offering distinguished heritage, stellar alumni network, and top core placements.",
+        rating: 4.9,
+        reviewCount: 2150,
+        courses: ["CSE", "ECE", "Mech", "Civil", "Electrical"],
+        feeRange: "₹1.4L - ₹2.1L / year",
+        accreditation: "NAAC A++",
+        established: 1854,
+        facilities: ["Heritage Library", "Supercomputing Lab", "Hostel Quarters", "Wi-Fi Campus", "Boating Club"],
+        admissionInfo: "MHT-CET & JEE Main entrance exam rank allocation. Autonomous university admissions 2025.",
+        contact: {
+          email: "admissions@coeptech.ac.in",
+          phone: "+91 20 2550 7000",
+          address: "Wellesley Road, Shivajinagar, Pune, Maharashtra 411005"
+        }
+      },
+      {
+        id: "col-5",
+        name: "PSG College of Technology",
+        city: "Coimbatore",
+        state: "Tamil Nadu",
+        distance: 45,
+        managementType: "General Management",
+        shortDescription: "Industry-integrated premier institution celebrated for research partnerships, patent filings, and exceptional mechanical & software engineering.",
+        rating: 4.7,
+        reviewCount: 1340,
+        courses: ["CSE", "ECE", "Mech", "Automobile", "Robotics"],
+        feeRange: "₹1.8L - ₹2.9L / year",
+        accreditation: "NAAC A++",
+        established: 1951,
+        facilities: ["Industry Collaborative Labs", "Central Tech Library", "Hostels", "High-Speed Wi-Fi", "Indoor Stadium"],
+        admissionInfo: "TNEA Single Window Counseling and Institutional Merit Test. 2025 Enrolment open.",
+        contact: {
+          email: "admissions@psgtech.edu",
+          phone: "+91 422 257 2177",
+          address: "Avinashi Road, Peelamedu, Coimbatore, Tamil Nadu 641004"
+        }
+      },
+      {
+        id: "col-6",
+        name: "Vellore Institute of Technology (VIT)",
+        city: "Vellore",
+        state: "Tamil Nadu",
+        distance: 85,
+        managementType: "NRI",
+        shortDescription: "A truly global campus hosting students from 50+ countries with advanced modular credit systems and intensive international tie-ups.",
+        rating: 4.6,
+        reviewCount: 3400,
+        courses: ["CSE", "AI/ML", "ECE", "BioTech", "Mech"],
+        feeRange: "₹3.5L - ₹6.5L / year",
+        accreditation: "NAAC A++",
+        established: 1984,
+        facilities: ["Smart Classrooms", "24/7 Digital Library", "Multi-Cuisine Hostels", "Gigabit Wi-Fi", "Outdoor Stadium"],
+        admissionInfo: "VITEEE Entrance test & Direct NRI / Foreign National Sponsored seats for 2025 session.",
+        contact: {
+          email: "nriadmission@vit.ac.in",
+          phone: "+91 416 220 2020",
+          address: "VIT, Katpadi, Vellore, Tamil Nadu 632014"
+        }
+      },
+      {
+        id: "col-7",
+        name: "International Institute of Information Technology (IIIT)",
+        city: "Hyderabad",
+        state: "Telangana",
+        distance: 22,
+        managementType: "General Management",
+        shortDescription: "Premier research-led university at the cutting edge of Computer Science, NLP, and Artificial Intelligence with highest tier placement records.",
+        rating: 4.9,
+        reviewCount: 1890,
+        courses: ["CSE", "ECE", "AI/ML", "Dual Degree Research"],
+        feeRange: "₹3.8L - ₹4.5L / year",
+        accreditation: "NAAC A++",
+        established: 1998,
+        facilities: ["Kohli Center for AI", "Digital Library", "Campus Hostels", "Fiber Wi-Fi", "Sports Complex"],
+        admissionInfo: "UGEE Mode, JEE Main, and Olympiad Direct entries. Admissions active for 2025.",
+        contact: {
+          email: "ugadmissions@iiit.ac.in",
+          phone: "+91 40 6653 1000",
+          address: "Gachibowli, Hyderabad, Telangana 500032"
+        }
+      },
+      {
+        id: "col-8",
+        name: "Delhi Technological University (DTU)",
+        city: "New Delhi",
+        state: "Delhi",
+        distance: 15,
+        managementType: "General Management",
+        shortDescription: "Formerly Delhi College of Engineering (DCE), an institutional titan in national technology education with unmatched entrepreneurial ecosystem.",
+        rating: 4.8,
+        reviewCount: 2800,
+        courses: ["CSE", "Software", "ECE", "Mech", "Electrical"],
+        feeRange: "₹1.9L - ₹2.4L / year",
+        accreditation: "NAAC A",
+        established: 1941,
+        facilities: ["Innovation Hub", "Central Library", "Sprawling Hostels", "Campus Wi-Fi", "Synthetic Track"],
+        admissionInfo: "JAC Delhi Counseling based on JEE Main CRL rankings. 2025 Prospectus active.",
+        contact: {
+          email: "academic@dtu.ac.in",
+          phone: "+91 11 2787 1018",
+          address: "Shahbad Daulatpur, Bawana Road, Delhi 110042"
+        }
+      },
+      {
+        id: "col-9",
+        name: "National Institute of Technology Calicut (NITC)",
+        city: "Kozhikode",
+        state: "Kerala",
+        distance: 110,
+        managementType: "General Management",
+        shortDescription: "An Institute of National Importance cradled in scenic Western Ghats, renowned for top tier research, academic rigour, and placements.",
+        rating: 4.8,
+        reviewCount: 1650,
+        courses: ["CSE", "ECE", "Mech", "Civil", "Chemical"],
+        feeRange: "₹1.5L - ₹2.2L / year",
+        accreditation: "NIRF Top 25",
+        established: 1961,
+        facilities: ["Advanced Microelectronics Lab", "Nalanda Digital Library", "Student Hostels", "Campus Wi-Fi", "Swimming Complex"],
+        admissionInfo: "JoSAA / CSAB counseling through JEE Main. DASA admissions for NRI candidates.",
+        contact: {
+          email: "director@nitc.ac.in",
+          phone: "+91 495 228 6100",
+          address: "NIT Campus P.O, Kozhikode, Kerala 673601"
+        }
+      },
+      {
+        id: "col-10",
+        name: "Symbiosis Global Engineering Institute",
+        city: "Pune",
+        state: "Maharashtra",
+        distance: 28,
+        managementType: "NRI",
+        shortDescription: "Multidisciplinary global technical school offering specialized degrees in Autonomous Systems, Industry 4.0, and Applied Artificial Intelligence.",
+        rating: 4.5,
+        reviewCount: 870,
+        courses: ["CSE", "AI/ML", "Robotics", "ECE"],
+        feeRange: "₹3.2L - ₹5.8L / year",
+        accreditation: "NAAC A++",
+        established: 2008,
+        facilities: ["Maker Space", "Global Resource Library", "Executive Hostels", "High-Speed Wi-Fi", "Recreation Gym"],
+        admissionInfo: "SITEEE Exam / Direct International Student Quota for 2025 Admissions.",
+        contact: {
+          email: "admissions@sitpune.edu.in",
+          phone: "+91 20 2811 6300",
+          address: "Near Lupin Research Park, Gram: Lavale, Tal: Mulshi, Pune, Maharashtra 412115"
+        }
+      }
+    ];
+
+    // State Management
+    let currentFilteredColleges = [...COLLEGE_DATA];
+    let selectedForComparison = [];
+    let savedColleges = [];
+    let activeModalCollege = null;
+    let heroManagementSelection = "ALL";
+
+    // Initialization
+    document.addEventListener("DOMContentLoaded", () => {
+      renderColleges(currentFilteredColleges);
+      updateComparisonTrayUI();
+
+      // Mobile Navigation Drawer listeners
+      const openBtn = document.getElementById("open-drawer-btn");
+      if (openBtn) {
+        openBtn.addEventListener("click", openDrawer);
+      }
+
+      // Enter key on hero search
+      document.getElementById("hero-search").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") applyHeroSearch();
+      });
+    });
+
+    // Mobile Drawer Controls
+    function openDrawer() {
+      const drawer = document.getElementById("nav-drawer");
+      const backdrop = document.getElementById("drawer-backdrop");
+      backdrop.classList.remove("hidden");
+      setTimeout(() => backdrop.classList.remove("opacity-0"), 10);
+      drawer.classList.remove("-translate-x-full");
+    }
+
+    function closeDrawer() {
+      const drawer = document.getElementById("nav-drawer");
+      const backdrop = document.getElementById("drawer-backdrop");
+      drawer.classList.add("-translate-x-full");
+      backdrop.classList.add("opacity-0");
+      setTimeout(() => backdrop.classList.add("hidden"), 300);
+    }
+
+    // Hero Section Filter Helpers
+    function setManagementHeroFilter(val) {
+      heroManagementSelection = val;
+      const pills = document.querySelectorAll(".hero-mgmt-pill");
+      pills.forEach(p => {
+        if (p.getAttribute("data-mgmt-val") === val) {
+          p.className = "hero-mgmt-pill px-3 py-1.5 rounded-full text-label-sm font-label-sm transition-all border border-secondary bg-secondary/10 text-secondary font-semibold";
+        } else {
+          p.className = "hero-mgmt-pill px-3 py-1.5 rounded-full text-label-sm font-label-sm transition-all border border-outline-variant bg-surface-container-low text-on-surface-variant hover:bg-surface-container";
+        }
+      });
+    }
+
+    function resetHeroFilters() {
+      document.getElementById("hero-search").value = "";
+      document.getElementById("hero-state").value = "ALL";
+      document.getElementById("hero-distance").value = "ALL";
+      setManagementHeroFilter("ALL");
+      resetAllFilters();
+    }
+
+    function applyHeroSearch() {
+      const searchVal = document.getElementById("hero-search").value.trim().toLowerCase();
+      const stateVal = document.getElementById("hero-state").value;
+      const distVal = document.getElementById("hero-distance").value;
+
+      // Sync with explore sidebar
+      if (stateVal !== "ALL") {
+        document.getElementById("filter-state").value = stateVal;
+        document.getElementById("mobile-filter-state").value = stateVal;
+      } else {
+        document.getElementById("filter-state").value = "ALL";
+        document.getElementById("mobile-filter-state").value = "ALL";
+      }
+
+      if (distVal !== "ALL") {
+        const rad = document.querySelector(`input[name="distance_rad"][value="${distVal}"]`);
+        if (rad) rad.checked = true;
+        const mobRad = document.querySelector(`input[name="mobile_distance_rad"][value="${distVal}"]`);
+        if (mobRad) mobRad.checked = true;
+      }
+
+      // Sync Management checkboxes
+      if (heroManagementSelection === "General Management") {
+        document.getElementById("mgmt-general").checked = true;
+        document.getElementById("mgmt-nri").checked = false;
+        document.getElementById("mobile-mgmt-general").checked = true;
+        document.getElementById("mobile-mgmt-nri").checked = false;
+      } else if (heroManagementSelection === "NRI") {
+        document.getElementById("mgmt-general").checked = false;
+        document.getElementById("mgmt-nri").checked = true;
+        document.getElementById("mobile-mgmt-general").checked = false;
+        document.getElementById("mobile-mgmt-nri").checked = true;
+      } else {
+        document.getElementById("mgmt-general").checked = true;
+        document.getElementById("mgmt-nri").checked = true;
+        document.getElementById("mobile-mgmt-general").checked = true;
+        document.getElementById("mobile-mgmt-nri").checked = true;
+      }
+
+      triggerFiltersUpdate(searchVal);
+
+      // Scroll smoothly to explore section
+      document.getElementById("explore-section").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Main Filtering Function
+    function triggerFiltersUpdate(optionalSearch = null) {
+      const state = document.getElementById("filter-state").value;
+      const distanceRadio = document.querySelector('input[name="distance_rad"]:checked');
+      const maxDistance = distanceRadio ? distanceRadio.value : "ALL";
+
+      const allowGeneral = document.getElementById("mgmt-general").checked;
+      const allowNri = document.getElementById("mgmt-nri").checked;
+
+      const heroQuery = optionalSearch !== null 
+        ? optionalSearch 
+        : document.getElementById("hero-search").value.trim().toLowerCase();
+
+      currentFilteredColleges = COLLEGE_DATA.filter(col => {
+        // Name Search
+        if (heroQuery && !col.name.toLowerCase().includes(heroQuery) && !col.city.toLowerCase().includes(heroQuery)) {
+          return false;
+        }
+
+        // State
+        if (state !== "ALL" && col.state.toLowerCase() !== state.toLowerCase()) {
+          return false;
+        }
+
+        // Distance
+        if (maxDistance !== "ALL" && col.distance > parseInt(maxDistance, 10)) {
+          return false;
+        }
+
+        // Management Quota
+        if (col.managementType === "General Management" && !allowGeneral) return false;
+        if (col.managementType === "NRI" && !allowNri) return false;
+
+        return true;
+      });
+
+      // Apply current sort
+      applySorting(false);
+
+      // Render updated list
+      renderColleges(currentFilteredColleges);
+      updateFilterChipsDisplay(state, maxDistance, allowGeneral, allowNri, heroQuery);
+    }
+
+    // Sorting
+    function applySorting(shouldRender = true) {
+      const sortVal = document.getElementById("sort-select").value;
+      if (sortVal === "dist_asc") {
+        currentFilteredColleges.sort((a, b) => a.distance - b.distance);
+      } else if (sortVal === "dist_desc") {
+        currentFilteredColleges.sort((a, b) => b.distance - a.distance);
+      } else if (sortVal === "rating_desc") {
+        currentFilteredColleges.sort((a, b) => b.rating - a.rating);
+      } else if (sortVal === "name_asc") {
+        currentFilteredColleges.sort((a, b) => a.name.localeCompare(b.name));
+      } else {
+        // Relevance default (id order)
+        currentFilteredColleges.sort((a, b) => a.id.localeCompare(b.id));
+      }
+
+      if (shouldRender) {
+        renderColleges(currentFilteredColleges);
+      }
+    }
+
+    // Active Filter Chips Visuals
+    function updateFilterChipsDisplay(state, maxDistance, allowGen, allowNri, query) {
+      const container = document.getElementById("active-filter-chips");
+      const list = document.getElementById("chips-list");
+      list.innerHTML = "";
+
+      let count = 0;
+
+      if (query) {
+        count++;
+        list.innerHTML += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-secondary/10 text-secondary text-label-sm font-label-sm border border-secondary/20">Query: "${query}"</span>`;
+      }
+      if (state !== "ALL") {
+        count++;
+        list.innerHTML += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-on-surface text-label-sm font-label-sm border border-outline-variant/60">State: ${state}</span>`;
+      }
+      if (maxDistance !== "ALL") {
+        count++;
+        list.innerHTML += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-on-surface text-label-sm font-label-sm border border-outline-variant/60">&le; ${maxDistance} km</span>`;
+      }
+      if (!allowGen || !allowNri) {
+        count++;
+        const types = [];
+        if (allowGen) types.push("General");
+        if (allowNri) types.push("NRI");
+        list.innerHTML += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-on-surface text-label-sm font-label-sm border border-outline-variant/60">${types.join(", ")}</span>`;
+      }
+
+      const mobileBadge = document.getElementById("mobile-filter-badge");
+      if (count > 0) {
+        container.classList.remove("hidden");
+        mobileBadge.textContent = count;
+        mobileBadge.classList.remove("hidden");
+      } else {
+        container.classList.add("hidden");
+        mobileBadge.classList.add("hidden");
+      }
+    }
+
+    // Reset All Filters
+    function resetAllFilters() {
+      document.getElementById("hero-search").value = "";
+      document.getElementById("filter-state").value = "ALL";
+      document.getElementById("mobile-filter-state").value = "ALL";
+      
+      const allDist = document.querySelector('input[name="distance_rad"][value="ALL"]');
+      if (allDist) allDist.checked = true;
+      const allMobDist = document.querySelector('input[name="mobile_distance_rad"][value="ALL"]');
+      if (allMobDist) allMobDist.checked = true;
+
+      document.getElementById("mgmt-general").checked = true;
+      document.getElementById("mgmt-nri").checked = true;
+      document.getElementById("mobile-mgmt-general").checked = true;
+      document.getElementById("mobile-mgmt-nri").checked = true;
+
+      setManagementHeroFilter("ALL");
+
+      currentFilteredColleges = [...COLLEGE_DATA];
+      applySorting(true);
+      updateFilterChipsDisplay("ALL", "ALL", true, true, "");
+      triggerToast("Filters reset to default directory view.");
+    }
+
+    // Render College Cards Feed
+    function renderColleges(colleges) {
+      const container = document.getElementById("colleges-container");
+      const emptyState = document.getElementById("empty-state");
+      const resultsCount = document.getElementById("results-count");
+
+      resultsCount.textContent = `Showing ${colleges.length} College${colleges.length === 1 ? '' : 's'} Found`;
+
+      if (colleges.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      container.innerHTML = colleges.map(col => {
+        const isCompared = selectedForComparison.some(c => c.id === col.id);
+        const isSaved = savedColleges.some(c => c.id === col.id);
+        const initials = col.name.split(" ").slice(0, 2).map(w => w[0]).join("");
+
+        // Management Quota styling
+        const isNRI = col.managementType === "NRI";
+        const mgmtBadgeClass = isNRI 
+          ? "bg-surface-container-highest text-secondary border border-secondary/20" 
+          : "bg-secondary/10 text-secondary border border-secondary/20";
+
+        return `
+          <div class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-outline-variant/40 shadow-sm hover:shadow-md hover:border-outline-variant transition-all">
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+              <div class="flex items-start gap-4">
+                <!-- Initials Badge / Emblem -->
+                <div class="w-12 h-12 rounded-xl bg-secondary text-on-secondary font-headline-md text-headline-md font-bold flex items-center justify-center shrink-0 shadow-sm">
+                  ${initials}
+                </div>
+                <div>
+                  <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span class="px-2.5 py-0.5 rounded text-label-sm font-label-sm font-semibold ${mgmtBadgeClass}">
+                      ${col.managementType}
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface-variant font-medium">
+                      ${col.accreditation}
+                    </span>
+                    <span class="inline-flex items-center gap-1 text-label-sm font-label-sm text-outline">
+                      <span class="material-symbols-outlined text-[15px] text-outline">near_me</span>
+                      ${col.distance} km away
+                    </span>
+                  </div>
+                  <h3 class="text-headline-md font-headline-md text-on-surface font-semibold hover:text-secondary cursor-pointer transition-colors" onclick="openDetailsModal('${col.id}')">
+                    ${col.name}
+                  </h3>
+                  <p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+                    <span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+                    ${col.city}, ${col.state}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Star Rating Score Box -->
+              <div class="flex items-center sm:flex-col sm:items-end justify-between sm:justify-start gap-1 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-outline-variant/30">
+                <div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low border border-outline-variant/40">
+                  <span class="material-symbols-outlined text-on-tertiary-container text-[18px]">star</span>
+                  <span class="text-title-sm font-title-sm font-bold text-on-surface">${col.rating}</span>
+                </div>
+                <span class="text-label-sm font-label-sm text-outline">(${col.reviewCount.toLocaleString()} reviews)</span>
+              </div>
+            </div>
+
+            <!-- Overview Description -->
+            <p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2 mb-4">
+              ${col.shortDescription}
+            </p>
+
+            <!-- Structured Metric Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 py-3 px-3.5 bg-surface-container-low/60 rounded-xl mb-4 border border-outline-variant/30 text-body-sm">
+              <div>
+                <span class="text-label-sm font-label-sm text-outline block">Tuition Band</span>
+                <span class="text-on-surface font-semibold text-label-md">${col.feeRange.split(" / ")[0]}</span>
+              </div>
+              <div>
+                <span class="text-label-sm font-label-sm text-outline block">Key Offerings</span>
+                <span class="text-on-surface font-semibold text-label-md truncate block">${col.courses.slice(0, 3).join(", ")} +more</span>
+              </div>
+              <div class="col-span-2 sm:col-span-1 pt-1 sm:pt-0 border-t sm:border-t-0 border-outline-variant/30">
+                <span class="text-label-sm font-label-sm text-outline block">Entrance Test</span>
+                <span class="text-on-surface font-semibold text-label-md truncate block">${col.admissionInfo.split(" scores")[0]}</span>
+              </div>
+            </div>
+
+            <!-- Footer Action Zone -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-outline-variant/30">
+              <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                <input type="checkbox" onchange="toggleCompareCollege('${col.id}')" ${isCompared ? 'checked' : ''} class="rounded text-secondary focus:ring-secondary w-4 h-4 border-outline-variant" />
+                <span class="text-label-md font-label-md text-on-surface-variant">Add to Compare</span>
+              </label>
+
+              <div class="flex items-center gap-2">
+                <button onclick="toggleSaveCollege('${col.id}')" class="p-2 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors" title="${isSaved ? 'Remove from saved' : 'Save College'}">
+                  <span class="material-symbols-outlined text-[18px] ${isSaved ? 'text-error' : ''}">
+                    ${isSaved ? 'bookmark' : 'bookmark_border'}
+                  </span>
+                </button>
+                <button onclick="openDetailsModal('${col.id}')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors">
+                  View Details
+                </button>
+                <button onclick="openEnquiryModal('${col.name}')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-secondary text-on-secondary text-label-md font-label-md font-semibold hover:bg-secondary-container transition-all active:scale-[0.98]">
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Comparison Drawer Logic
+    function toggleCompareCollege(collegeId) {
+      const col = COLLEGE_DATA.find(c => c.id === collegeId);
+      if (!col) return;
+
+      const idx = selectedForComparison.findIndex(c => c.id === collegeId);
+
+      if (idx > -1) {
+        selectedForComparison.splice(idx, 1);
+        triggerToast(`Removed ${col.name} from comparison.`);
+      } else {
+        if (selectedForComparison.length >= 3) {
+          triggerToast("Comparison limit reached! You can compare max 3 colleges.");
+          // Uncheck corresponding checkbox in UI
+          renderColleges(currentFilteredColleges);
+          return;
+        }
+        selectedForComparison.push(col);
+        triggerToast(`Added ${col.name} to comparison.`);
+      }
+
+      updateComparisonTrayUI();
+      renderColleges(currentFilteredColleges);
+    }
+
+    function removeComparisonItem(collegeId) {
+      selectedForComparison = selectedForComparison.filter(c => c.id !== collegeId);
+      updateComparisonTrayUI();
+      renderColleges(currentFilteredColleges);
+    }
+
+    function clearComparison() {
+      selectedForComparison = [];
+      updateComparisonTrayUI();
+      renderColleges(currentFilteredColleges);
+      triggerToast("Comparison tray cleared.");
+    }
+
+    function updateComparisonTrayUI() {
+      const dock = document.getElementById("comparison-dock");
+      const tray = document.getElementById("comparison-chips-tray");
+      const counter = document.getElementById("compare-tray-counter");
+      const compareNowBtn = document.getElementById("compare-now-btn");
+      const bottomNavBadge = document.getElementById("bottom-nav-compare-badge");
+
+      const count = selectedForComparison.length;
+      counter.textContent = `Comparison (${count}/3 colleges)`;
+      compareNowBtn.textContent = `Compare Now (${count})`;
+
+      // Mobile Bottom Nav Badge
+      if (count > 0) {
+        bottomNavBadge.textContent = count;
+        bottomNavBadge.classList.remove("hidden");
+      } else {
+        bottomNavBadge.classList.add("hidden");
+      }
+
+      if (count > 0) {
+        dock.classList.remove("translate-y-32", "opacity-0", "pointer-events-none");
+        dock.classList.add("translate-y-0", "opacity-100", "pointer-events-auto");
+      } else {
+        dock.classList.add("translate-y-32", "opacity-0", "pointer-events-none");
+        dock.classList.remove("translate-y-0", "opacity-100", "pointer-events-auto");
+      }
+
+      tray.innerHTML = selectedForComparison.map(col => `
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-inverse-surface text-surface-container-lowest text-label-sm font-label-sm border border-outline/30">
+          <span class="max-w-[120px] truncate">${col.name}</span>
+          <button onclick="removeComparisonItem('${col.id}')" class="text-outline-variant hover:text-surface-container-lowest">
+            <span class="material-symbols-outlined text-[14px]">close</span>
+          </button>
+        </span>
+      `).join("");
+    }
+
+    // Comparison Modal (Full Table)
+    function openComparisonModal() {
+      if (selectedForComparison.length === 0) {
+        triggerToast("Please select at least 1 or 2 colleges to compare.");
+        return;
+      }
+
+      const modal = document.getElementById("comparison-modal");
+      const matrix = document.getElementById("comparison-matrix-container");
+
+      const cols = selectedForComparison;
+
+      matrix.innerHTML = `
+        <table class="w-full text-left border-collapse text-body-sm font-body-sm min-w-[600px]">
+          <thead>
+            <tr class="border-b border-outline-variant/40 bg-surface-container-low/50">
+              <th class="p-3 text-label-md font-label-md text-on-surface font-semibold w-40">Attribute</th>
+              ${cols.map(c => `
+                <th class="p-3 text-title-sm font-title-sm text-on-surface font-bold">
+                  <div class="flex items-center justify-between gap-2">
+                    <span>${c.name}</span>
+                    <button onclick="removeComparisonItem('${c.id}'); openComparisonModal();" class="text-outline hover:text-error text-label-sm">
+                      <span class="material-symbols-outlined text-[16px]">close</span>
+                    </button>
+                  </div>
+                </th>
+              `).join("")}
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline-variant/30">
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Location</td>
+              ${cols.map(c => `<td class="p-3 text-on-surface">${c.city}, ${c.state}</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Proximity Distance</td>
+              ${cols.map(c => `<td class="p-3 text-on-surface font-medium">${c.distance} km away</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Management Quota</td>
+              ${cols.map(c => `<td class="p-3"><span class="px-2 py-0.5 rounded text-label-sm font-semibold bg-secondary/10 text-secondary">${c.managementType}</span></td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Rating &amp; Reviews</td>
+              ${cols.map(c => `<td class="p-3 text-on-surface font-semibold text-on-tertiary-container">${c.rating} ★ (${c.reviewCount} reviews)</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Accreditation</td>
+              ${cols.map(c => `<td class="p-3 text-on-surface">${c.accreditation}</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Annual Tuition Fee</td>
+              ${cols.map(c => `<td class="p-3 text-on-surface font-bold">${c.feeRange}</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Offered Streams</td>
+              ${cols.map(c => `<td class="p-3 text-on-surface">${c.courses.join(", ")}</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Admissions Criteria</td>
+              ${cols.map(c => `<td class="p-3 text-body-sm text-on-surface-variant">${c.admissionInfo}</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Campus Facilities</td>
+              ${cols.map(c => `<td class="p-3 text-body-sm text-on-surface-variant">${c.facilities.join(" • ")}</td>`).join("")}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-on-surface-variant bg-surface-container-low/20">Action</td>
+              ${cols.map(c => `
+                <td class="p-3">
+                  <button onclick="closeComparisonModal(); openEnquiryModal('${c.name}');" class="w-full py-1.5 px-3 rounded-lg bg-secondary text-on-secondary text-label-sm font-semibold hover:bg-secondary-container">
+                    Apply Now
+                  </button>
+                </td>
+              `).join("")}
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeComparisonModal() {
+      const modal = document.getElementById("comparison-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    // College Details Modal Controls
+    function openDetailsModal(collegeId) {
+      const col = COLLEGE_DATA.find(c => c.id === collegeId);
+      if (!col) return;
+      activeModalCollege = col;
+
+      document.getElementById("modal-college-avatar").textContent = col.name.split(" ").slice(0, 2).map(w => w[0]).join("");
+      document.getElementById("modal-college-name").textContent = col.name;
+      document.getElementById("modal-college-location").innerHTML = `<span class="material-symbols-outlined text-[16px] text-outline">location_on</span> ${col.city}, ${col.state}`;
+      document.getElementById("modal-distance").textContent = `${col.distance} km away`;
+      document.getElementById("modal-mgmt-badge").textContent = col.managementType;
+      document.getElementById("modal-accreditation").textContent = col.accreditation;
+
+      document.getElementById("modal-description").textContent = col.shortDescription;
+      document.getElementById("modal-established").textContent = col.established;
+      document.getElementById("modal-rating").innerHTML = `${col.rating} ★`;
+      document.getElementById("modal-fees-metric").textContent = col.feeRange.split(" / ")[0];
+      document.getElementById("modal-reviews-count").textContent = col.reviewCount.toLocaleString();
+
+      // Courses List
+      const coursesList = document.getElementById("modal-courses-list");
+      coursesList.innerHTML = col.courses.map(crs => `
+        <div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/40 flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">menu_book</span>
+          <span class="text-body-sm font-semibold text-on-surface">${crs}</span>
+        </div>
+      `).join("");
+      document.getElementById("modal-fee-range-badge").textContent = `Tuition: ${col.feeRange}`;
+
+      // Admissions
+      document.getElementById("modal-admission-info").textContent = col.admissionInfo;
+
+      // Facilities
+      const facilitiesList = document.getElementById("modal-facilities-list");
+      facilitiesList.innerHTML = col.facilities.map(fac => `
+        <div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/40 flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">check</span>
+          <span class="text-body-sm text-on-surface">${fac}</span>
+        </div>
+      `).join("");
+
+      // Contact
+      document.getElementById("modal-contact-address").textContent = col.contact.address;
+      document.getElementById("modal-contact-phone").textContent = col.contact.phone;
+      document.getElementById("modal-contact-email").textContent = col.contact.email;
+
+      // Bookmark button state
+      updateModalBookmarkUI();
+
+      // Comparison button state
+      updateModalCompareUI();
+
+      // Reset to overview tab
+      switchModalTab("overview");
+
+      const modal = document.getElementById("details-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeDetailsModal() {
+      const modal = document.getElementById("details-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function switchModalTab(tabId) {
+      // Buttons
+      document.querySelectorAll(".modal-tab-btn").forEach(btn => {
+        if (btn.getAttribute("data-tab") === tabId) {
+          btn.className = "modal-tab-btn py-3 px-2 border-b-2 border-secondary text-secondary font-semibold text-label-md font-label-md whitespace-nowrap";
+        } else {
+          btn.className = "modal-tab-btn py-3 px-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface text-label-md font-label-md whitespace-nowrap";
+        }
+      });
+
+      // Panes
+      document.querySelectorAll(".modal-tab-pane").forEach(pane => {
+        pane.classList.add("hidden");
+      });
+      const activePane = document.getElementById(`tab-${tabId}`);
+      if (activePane) activePane.classList.remove("hidden");
+    }
+
+    function updateModalBookmarkUI() {
+      if (!activeModalCollege) return;
+      const isSaved = savedColleges.some(c => c.id === activeModalCollege.id);
+      const icon = document.getElementById("modal-bookmark-icon");
+      const text = document.getElementById("modal-bookmark-text");
+      if (isSaved) {
+        icon.textContent = "bookmark";
+        icon.classList.add("text-error");
+        text.textContent = "Saved";
+      } else {
+        icon.textContent = "bookmark_border";
+        icon.classList.remove("text-error");
+        text.textContent = "Save College";
+      }
+    }
+
+    function toggleModalBookmark() {
+      if (!activeModalCollege) return;
+      toggleSaveCollege(activeModalCollege.id);
+      updateModalBookmarkUI();
+    }
+
+    function updateModalCompareUI() {
+      if (!activeModalCollege) return;
+      const isCompared = selectedForComparison.some(c => c.id === activeModalCollege.id);
+      const btn = document.getElementById("modal-compare-toggle-btn");
+      if (isCompared) {
+        btn.textContent = "✓ In Comparison";
+        btn.className = "px-3.5 py-2 rounded-lg bg-secondary/10 border border-secondary text-secondary text-label-md font-label-md font-semibold";
+      } else {
+        btn.textContent = "+ Compare";
+        btn.className = "px-3.5 py-2 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-lowest transition-colors";
+      }
+    }
+
+    function toggleModalComparison() {
+      if (!activeModalCollege) return;
+      toggleCompareCollege(activeModalCollege.id);
+      updateModalCompareUI();
+    }
+
+    function openEnquiryFromModal() {
+      if (!activeModalCollege) return;
+      const name = activeModalCollege.name;
+      closeDetailsModal();
+      openEnquiryModal(name);
+    }
+
+    // Save/Shortlist Operations
+    function toggleSaveCollege(collegeId) {
+      const col = COLLEGE_DATA.find(c => c.id === collegeId);
+      if (!col) return;
+
+      const idx = savedColleges.findIndex(c => c.id === collegeId);
+      if (idx > -1) {
+        savedColleges.splice(idx, 1);
+        triggerToast(`Removed ${col.name} from shortlist.`);
+      } else {
+        savedColleges.push(col);
+        triggerToast(`Saved ${col.name} to shortlist.`);
+      }
+
+      // Update badge
+      const badge = document.getElementById("bottom-nav-saved-badge");
+      if (savedColleges.length > 0) {
+        badge.textContent = savedColleges.length;
+        badge.classList.remove("hidden");
+      } else {
+        badge.classList.add("hidden");
+      }
+
+      renderColleges(currentFilteredColleges);
+    }
+
+    function viewSavedColleges() {
+      if (savedColleges.length === 0) {
+        triggerToast("No saved colleges yet. Click the bookmark icon on any card!");
+        return;
+      }
+      currentFilteredColleges = [...savedColleges];
+      renderColleges(currentFilteredColleges);
+      document.getElementById("explore-section").scrollIntoView({ behavior: "smooth" });
+      triggerToast(`Displaying ${savedColleges.length} shortlisted college(s).`);
+    }
+
+    // Quick State Cluster Cards Selection
+    function selectStateCluster(stateName) {
+      document.getElementById("filter-state").value = stateName;
+      document.getElementById("mobile-filter-state").value = stateName;
+      document.getElementById("hero-state").value = stateName;
+      triggerFiltersUpdate();
+      document.getElementById("explore-section").scrollIntoView({ behavior: "smooth" });
+      triggerToast(`Filtered directory to ${stateName}.`);
+    }
+
+    // Mobile Filter Drawer Handlers
+    function toggleMobileFilterDrawer(show) {
+      const modal = document.getElementById("mobile-filter-modal");
+      if (show) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      } else {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+    }
+
+    function applyMobileFilters() {
+      const state = document.getElementById("mobile-filter-state").value;
+      document.getElementById("filter-state").value = state;
+
+      const mobDist = document.querySelector('input[name="mobile_distance_rad"]:checked');
+      if (mobDist) {
+        const desktopRadio = document.querySelector(`input[name="distance_rad"][value="${mobDist.value}"]`);
+        if (desktopRadio) desktopRadio.checked = true;
+      }
+
+      document.getElementById("mgmt-general").checked = document.getElementById("mobile-mgmt-general").checked;
+      document.getElementById("mgmt-nri").checked = document.getElementById("mobile-mgmt-nri").checked;
+
+      triggerFiltersUpdate();
+      toggleMobileFilterDrawer(false);
+      document.getElementById("explore-section").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Direct Enquiry Modal Logic
+    function openEnquiryModal(collegeName) {
+      document.getElementById("enquiry-target-college").textContent = collegeName || "General Admissions Consultation";
+      const modal = document.getElementById("enquiry-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeEnquiryModal() {
+      const modal = document.getElementById("enquiry-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function handleEnquirySubmit(e) {
+      e.preventDefault();
+      const college = document.getElementById("enquiry-target-college").textContent;
+      const name = document.getElementById("enq-name").value;
+      closeEnquiryModal();
+      triggerToast(`Thank you, ${name}! Your admission enquiry for ${college} has been logged.`);
+      e.target.reset();
+    }
+
+    // Specialized Nav actions
+    function filterByAdmission() {
+      document.getElementById("explore-section").scrollIntoView({ behavior: "smooth" });
+      triggerToast("Filtered to institutions with active 2025 Admissions.");
+    }
+
+    function sortByRatingDesc() {
+      document.getElementById("sort-select").value = "rating_desc";
+      applySorting(true);
+      document.getElementById("explore-section").scrollIntoView({ behavior: "smooth" });
+      triggerToast("Sorted institutions by Highest Verified Ratings.");
+    }
+
+    // Lightweight Toast Utility
+    let toastTimeout;
+    function triggerToast(message) {
+      const toast = document.getElementById("toast");
+      const text = document.getElementById("toast-text");
+      text.textContent = message;
+      clearTimeout(toastTimeout);
+
+      toast.classList.remove("translate-y-[-20px]", "opacity-0", "pointer-events-none");
+      toast.classList.add("translate-y-0", "opacity-100", "pointer-events-auto");
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.add("translate-y-[-20px]", "opacity-0", "pointer-events-none");
+        toast.classList.remove("translate-y-0", "opacity-100", "pointer-events-auto");
+      }, 3500);
+    }
+  </script>
+</body></html>
