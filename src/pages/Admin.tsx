@@ -403,7 +403,7 @@ export const Admin: React.FC = () => {
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-extrabold tracking-tight">Admission by Choice — Admin Center</h1>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                  isSuperAdmin ? 'bg-purple-500/20 text-purple-200 border border-purple-400/30' : 'bg-blue-500/20 text-blue-200'
+                  isSuperAdmin ? 'bg-[#FFBE2E] text-[#12305A] border border-[#FFBE2E]' : 'bg-blue-500/20 text-blue-200'
                 }`}>
                   {isSuperAdmin ? 'SUPER ADMIN' : 'ADMIN'}
                 </span>
@@ -1060,7 +1060,7 @@ export const Admin: React.FC = () => {
           <div className="space-y-4">
             <div className="bg-white rounded-2xl border border-[#DCE5EF] p-4 shadow-xs">
               <h3 className="font-bold text-[#12305A] text-sm flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-purple-700">people</span>
+                <span className="material-symbols-outlined text-[18px] text-[#0757C9]">people</span>
                 <span>Registered Students & Accounts</span>
               </h3>
             </div>
@@ -1084,7 +1084,7 @@ export const Admin: React.FC = () => {
                       <td className="py-3 px-4 text-[#5F6F82]">{u.email}</td>
                       <td className="py-3 px-4">
                         <span className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] ${
-                          u.role === 'SUPER_ADMIN' ? 'bg-purple-100 text-purple-800' : u.role === 'ADMIN' ? 'bg-blue-100 text-[#0757C9]' : 'bg-teal-50 text-[#087C8B]'
+                          u.role === 'SUPER_ADMIN' ? 'bg-[#12305A] text-white' : u.role === 'ADMIN' ? 'bg-blue-100 text-[#0757C9]' : 'bg-teal-50 text-[#087C8B]'
                         }`}>
                           {u.role}
                         </span>
@@ -1134,17 +1134,17 @@ export const Admin: React.FC = () => {
                 <h4 className="font-bold text-[#12305A] text-sm">Authorized Administrator Accounts</h4>
               </div>
               <div className="divide-y divide-[#DCE5EF]">
-                <div className="p-4 flex items-center justify-between bg-purple-50/50">
+                <div className="p-4 flex items-center justify-between bg-blue-50/50">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs">
+                    <div className="w-8 h-8 rounded-full bg-[#0757C9] text-white flex items-center justify-center font-bold text-xs">
                       👑
                     </div>
                     <div>
-                      <p className="font-bold text-[#12305A]">admissionbychoice@gmail.com / bmsit8@gmail.com</p>
-                      <p className="text-[11px] text-purple-700 font-semibold">Primary Super Admin Accounts</p>
+                      <p className="font-bold text-[#12305A]">admissionbychoice@gmail.com</p>
+                      <p className="text-[11px] text-[#0757C9] font-semibold">Primary Super Administrator</p>
                     </div>
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold text-[10px]">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#12305A] text-white font-bold text-[10px]">
                     SUPER_ADMIN
                   </span>
                 </div>

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../db/prisma.js';
-
-const SUPER_ADMIN_EMAIL = 'bmsit8@gmail.com';
+import { SUPER_ADMIN_EMAIL } from '../middleware/auth.js';
 
 // 1. Overview Dashboard Stats
 export const getOverview = async (_req: Request, res: Response) => {

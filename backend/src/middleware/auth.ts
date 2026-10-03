@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '../db/prisma.js';
 
 export const JWT_SECRET = process.env.JWT_SECRET || 'admission_by_choice_jwt_super_secure_secret_key_2026';
-export const SUPER_ADMIN_EMAIL = 'bmsit8@gmail.com';
+export const SUPER_ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admissionbychoice@gmail.com').toLowerCase().trim();
 
 export interface AuthRequest extends Request {
   user?: any;
@@ -35,16 +35,12 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(403).json({ error: 'Account suspended. Please contact admissions support.' });
     }
 
-    // Auto-verify Super Admin role if email matches bmsit8@gmail.com
-    if (user.email.toLowerCase() === SUPER_ADMIN_EMAIL && user.role !== 'SUPER_ADMIN') {
-      const updated = await prisma.user.update({
-        where: { id: user.id },
-        data: { role: 'SUPER_ADMIN' }
-      });
-      req.user = updated;
-    } else {
-      req.user = user;
-    }
+    // Attach user with token-scoped role (prevents student session token from inheriting admin DB privileges)
+    req.user = {
+      ...user,
+      role: decoded.role || user.role,
+      tokenRole: decoded.role
+    };
 
     next();
   } catch (err: any) {
@@ -59,10 +55,14 @@ export const optionalAuth = async (req: AuthRequest, _res: Response, next: NextF
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.split(' ')[1];
       if (token) {
-        const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
+        const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: string };
         const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
         if (user && user.status === 'ACTIVE') {
-          req.user = user;
+          req.user = {
+            ...user,
+            role: decoded.role || user.role,
+            tokenRole: decoded.role
+          };
         }
       }
     }
@@ -83,7 +83,10 @@ export const requireAdmin = (req: AuthRequest, res: Response, next: NextFunction
   if (!req.user) {
     return res.status(401).json({ error: 'Authentication required' });
   }
-  if (req.user.role !== 'ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+  if (
+    (req.user.role !== 'ADMIN' && req.user.role !== 'SUPER_ADMIN') ||
+    (req.user.tokenRole !== 'ADMIN' && req.user.tokenRole !== 'SUPER_ADMIN')
+  ) {
     return res.status(403).json({ error: 'Forbidden: Administrator privileges required' });
   }
   next();
@@ -93,7 +96,10 @@ export const requireSuperAdmin = (req: AuthRequest, res: Response, next: NextFun
   if (!req.user) {
     return res.status(401).json({ error: 'Authentication required' });
   }
-  if (req.user.role !== 'SUPER_ADMIN') {
+  if (
+    req.user.role !== 'SUPER_ADMIN' ||
+    req.user.tokenRole !== 'SUPER_ADMIN'
+  ) {
     return res.status(403).json({ error: 'Forbidden: Super Administrator privileges required' });
   }
   next();

@@ -74,66 +74,65 @@ export const googleAuth = async (req: Request, res: Response) => {
       email = String(directEmail).toLowerCase().trim();
       name = directName || email.split('@')[0];
       avatar = directAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(email)}`;
-      googleId = directGoogleId || `google_${Buffer.from(email).toString('hex').slice(0, 16)}`;
+      googleId = directGoogleId || undefined;
     }
 
     if (!email) {
       return res.status(400).json({ error: 'Google sign-in failed: Valid Google email was not found' });
     }
 
-    // 4. Role determination
-    let role = 'STUDENT';
-    const isSuperAdminEmail = email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
+    // 4. Role determination:
+    // Public Google authentication is strictly for Student accounts (saved colleges, enquiries, AI chats).
+    // Administrative access (ADMIN / SUPER_ADMIN) strictly requires server password verification via POST /api/admin/login.
+    const normalizedEmail = email.toLowerCase().trim();
 
-    if (isSuperAdminEmail) {
-      role = 'SUPER_ADMIN';
-    } else {
-      // Check if authorized in Admin whitelist
-      const authorized = await prisma.authorizedAdmin.findUnique({
-        where: { email: email.toLowerCase() }
+    if (normalizedEmail === SUPER_ADMIN_EMAIL.toLowerCase()) {
+      return res.status(401).json({
+        error: 'Administrator accounts must sign in using their password at /admin/login'
       });
-      if (authorized) {
-        role = authorized.role || 'ADMIN';
-      } else {
-        // If user already exists and had an elevated role, check if still permitted
-        const existing = await prisma.user.findUnique({ where: { email: email.toLowerCase() } });
-        if (existing && (existing.role === 'ADMIN' || existing.role === 'SUPER_ADMIN')) {
-          role = existing.role;
-        }
-      }
     }
 
-    // 5. Upsert User in PostgreSQL
-    const user = await prisma.user.upsert({
-      where: { email: email.toLowerCase() },
-      update: {
-        googleId,
-        name: name || undefined,
-        avatar: avatar || undefined,
-        role,
-        lastLoginAt: new Date()
-      },
-      create: {
-        googleId,
-        email: email.toLowerCase(),
-        name: name || email.split('@')[0],
-        avatar: avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(email)}`,
-        role,
-        status: 'ACTIVE',
-        lastLoginAt: new Date()
-      }
+    const existingUser = await prisma.user.findUnique({
+      where: { email: normalizedEmail }
     });
+
+    let user;
+    if (existingUser) {
+      user = await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          googleId: googleId || existingUser.googleId || undefined,
+          name: name || existingUser.name,
+          avatar: avatar || existingUser.avatar,
+          lastLoginAt: new Date()
+        }
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          googleId: googleId || undefined,
+          email: normalizedEmail,
+          name: name || normalizedEmail.split('@')[0],
+          avatar: avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(normalizedEmail)}`,
+          role: 'STUDENT',
+          status: 'ACTIVE',
+          lastLoginAt: new Date()
+        }
+      });
+    }
 
     if (user.status === 'SUSPENDED') {
       return res.status(403).json({ error: 'Your account has been suspended. Please contact support.' });
     }
 
-    // 6. Sign JWT token
+    // 6. Sign JWT token: Always issue STUDENT role for public Google auth
+    // Admin access requires authenticating via /api/admin/login with the secure admin password
+    const tokenRole = 'STUDENT';
     const token = jwt.sign(
       {
         userId: user.id,
         email: user.email,
-        role: user.role
+        role: tokenRole
       },
       JWT_SECRET,
       { expiresIn: '7d' }
@@ -146,7 +145,7 @@ export const googleAuth = async (req: Request, res: Response) => {
         email: user.email,
         name: user.name,
         avatar: user.avatar,
-        role: user.role,
+        role: tokenRole,
         status: user.status,
         createdAt: user.createdAt
       }

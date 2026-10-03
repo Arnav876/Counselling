@@ -145,10 +145,10 @@ export const Account: React.FC = () => {
                 <h1 className="text-2xl font-extrabold text-[#12305A]">{user.name}</h1>
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                   user.role === 'SUPER_ADMIN'
-                    ? 'bg-purple-100 text-purple-800 border border-purple-200'
+                    ? 'bg-[#12305A] text-white border border-[#12305A]'
                     : user.role === 'ADMIN'
-                    ? 'bg-blue-100 text-[#0757C9] border border-blue-200'
-                    : 'bg-teal-50 text-[#087C8B] border border-teal-200'
+                    ? 'bg-[#0757C9]/10 text-[#0757C9] border border-[#0757C9]/30'
+                    : 'bg-[#159EAE]/10 text-[#159EAE] border border-[#159EAE]/30'
                 }`}>
                   {user.role === 'SUPER_ADMIN' ? 'Super Admin' : user.role === 'ADMIN' ? 'Administrator' : 'Verified Student'}
                 </span>

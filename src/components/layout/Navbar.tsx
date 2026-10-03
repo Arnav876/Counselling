@@ -93,8 +93,8 @@ export const Navbar: React.FC = () => {
                 to="/admin"
                 className={`text-sm font-semibold pb-1 transition-colors flex items-center gap-1 ${
                   isActive('/admin')
-                    ? 'text-purple-700 border-b-2 border-purple-700'
-                    : 'text-purple-700 hover:text-purple-900'
+                    ? 'text-[#0757C9] border-b-2 border-[#0757C9]'
+                    : 'text-[#0757C9] hover:text-[#06449E]'
                 }`}
               >
                 <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
@@ -161,7 +161,7 @@ export const Navbar: React.FC = () => {
                       <Link
                         to="/admin"
                         onClick={() => setIsProfileDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-purple-700 hover:bg-purple-50 font-semibold"
+                        className="flex items-center gap-2.5 px-4 py-2 text-[#0757C9] hover:bg-[#0757C9]/10 font-semibold"
                       >
                         <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
                         <span>Admin Dashboard</span>
@@ -361,8 +361,8 @@ export const Navbar: React.FC = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`rounded-lg px-4 py-3 flex items-center gap-3 text-sm font-semibold transition-colors ${
                       isActive('/admin')
-                        ? 'bg-purple-100 text-purple-800'
-                        : 'text-purple-700 hover:bg-purple-50'
+                        ? 'bg-[#0757C9]/10 text-[#0757C9]'
+                        : 'text-[#0757C9] hover:bg-[#0757C9]/5'
                     }`}
                   >
                     <span className="material-symbols-outlined text-[20px]">admin_panel_settings</span>

@@ -120,20 +120,22 @@ export const AuthModal: React.FC = () => {
               <div className="grow border-t border-[#DCE5EF]"></div>
             </div>
 
-            {/* Quick Test Logins for Verification */}
+            {/* Role Options */}
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                disabled={isLoading}
-                onClick={() => handleQuickLogin('bmsit8@gmail.com', 'Super Administrator')}
-                className="p-2.5 rounded-xl bg-[#0757C9]/10 hover:bg-[#0757C9]/20 border border-[#0757C9]/30 text-left transition-colors cursor-pointer group"
+                onClick={() => {
+                  closeAuthModal();
+                  window.location.href = '/admin/login';
+                }}
+                className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-[#DCE5EF] text-left transition-all cursor-pointer group hover:border-[#0757C9]"
               >
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#0757C9]">
-                  <span className="material-symbols-outlined text-[16px]">verified_user</span>
-                  <span>Super Admin</span>
+                  <span className="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+                  <span>Admin Portal</span>
                 </div>
-                <p className="text-[11px] text-[#5F6F82] truncate mt-0.5 group-hover:text-[#12305A]">
-                  bmsit8@gmail.com
+                <p className="text-[11px] text-[#5F6F82] mt-0.5">
+                  Password Required &rarr;
                 </p>
               </button>
 
@@ -141,14 +143,14 @@ export const AuthModal: React.FC = () => {
                 type="button"
                 disabled={isLoading}
                 onClick={() => handleQuickLogin('student.neet@gmail.com', 'Priya Sharma')}
-                className="p-2.5 rounded-xl bg-[#F7FAFD] hover:bg-[#EBF2FA] border border-[#DCE5EF] text-left transition-colors cursor-pointer group"
+                className="p-3 rounded-xl bg-[#0757C9]/5 hover:bg-[#0757C9]/10 border border-[#0757C9]/20 text-left transition-all cursor-pointer group"
               >
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#12305A]">
                   <span className="material-symbols-outlined text-[16px] text-[#159EAE]">school</span>
                   <span>Student Portal</span>
                 </div>
                 <p className="text-[11px] text-[#5F6F82] truncate mt-0.5 group-hover:text-[#12305A]">
-                  student.neet@gmail.com
+                  Saved Colleges & AI Chat
                 </p>
               </button>
             </div>
