@@ -10,6 +10,7 @@ import authRoutes from './routes/authRoutes.js';
 import savedCollegeRoutes from './routes/savedCollegeRoutes.js';
 import conversationRoutes from './routes/conversationRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import blogRoutes from './routes/blogRoutes.js';
 import prisma from './db/prisma.js';
 
 const app = express();
@@ -89,6 +90,7 @@ app.use('/api/states', stateRoutes);
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/blogs', blogRoutes);
 
 // 404 Handler
 app.use((_req: Request, res: Response) => {
@@ -104,7 +106,11 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`⚡ [Backend] Admission by Choice Server running on http://localhost:${PORT}`);
-  console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
-});
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`⚡ [Backend] Admission by Choice Server running on http://localhost:${PORT}`);
+    console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
+  });
+}
+
+export default app;

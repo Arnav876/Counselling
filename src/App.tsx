@@ -15,6 +15,9 @@ import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { Account } from './pages/Account';
 import { Admin } from './pages/Admin';
+import { AdminLogin } from './pages/AdminLogin';
+import { Blogs } from './pages/Blogs';
+import { BlogDetail } from './pages/BlogDetail';
 
 function App() {
   return (
@@ -28,10 +31,15 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/colleges" element={<Colleges />} />
                 <Route path="/compare" element={<Compare />} />
+                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/blogs/private" element={<Blogs />} />
+                <Route path="/blogs/government" element={<Blogs />} />
+                <Route path="/blogs/:slug" element={<BlogDetail />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
               </Routes>
             </main>
             <Footer />

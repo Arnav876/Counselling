@@ -130,8 +130,9 @@ model StateSummary {
 
 model User {
   id            String         @id @default(uuid())
-  googleId      String         @unique
+  googleId      String?        @unique
   email         String         @unique
+  passwordHash  String?
   name          String
   avatar        String?
   role          String         @default("STUDENT") // STUDENT, ADMIN, SUPER_ADMIN
@@ -206,10 +207,13 @@ model Enquiry {
   userId          String?
   collegeName     String
   studentName     String
+  email           String?
   phone           String
   preferredCourse String
+  preferredState  String?
   notes           String?
-  status          String   @default("NEW") // NEW, IN_PROGRESS, RESOLVED
+  adminNote       String?
+  status          String   @default("NEW") // NEW, IN_PROGRESS, CONTACTED, RESOLVED
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
 
@@ -228,12 +232,34 @@ model Contact {
   subject        String
   message        String
   preferredState String?
-  status         String   @default("NEW") // NEW, IN_PROGRESS, RESOLVED
+  adminNote      String?
+  status         String   @default("NEW") // NEW, IN_PROGRESS, CONTACTED, RESOLVED
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @updatedAt
 
   user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([userId])
+  @@index([status])
+}
+
+model Blog {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  excerpt     String
+  content     String
+  coverImage  String    @default("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&auto=format&fit=crop&q=80")
+  category    String    // PRIVATE, GOVERNMENT
+  author      String    @default("Admission by Choice Advisory")
+  status      String    @default("DRAFT") // DRAFT, PUBLISHED
+  tags        String[]  @default([])
+  views       Int       @default(0)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([category])
   @@index([status])
 }

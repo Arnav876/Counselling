@@ -63,10 +63,13 @@ export interface StudentEnquiry {
   userId?: string | null;
   collegeName: string;
   studentName: string;
+  email?: string | null;
   phone: string;
   preferredCourse: string;
-  notes?: string;
-  status: 'NEW' | 'IN_PROGRESS' | 'RESOLVED';
+  preferredState?: string | null;
+  notes?: string | null;
+  adminNote?: string | null;
+  status: 'NEW' | 'IN_PROGRESS' | 'CONTACTED' | 'RESOLVED';
   createdAt: string;
   updatedAt: string;
   user?: {
@@ -85,8 +88,9 @@ export interface DirectContact {
   phone: string;
   subject: string;
   message: string;
-  preferredState?: string;
-  status: 'NEW' | 'IN_PROGRESS' | 'RESOLVED';
+  preferredState?: string | null;
+  adminNote?: string | null;
+  status: 'NEW' | 'IN_PROGRESS' | 'CONTACTED' | 'RESOLVED';
   createdAt: string;
   updatedAt: string;
   user?: {

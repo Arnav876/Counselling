@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import prisma from '../db/prisma.js';
+import { sendAdminEnquiryNotification } from '../services/emailService.js';
 
 export const createEnquiry = async (req: Request, res: Response) => {
   try {
-    const { collegeName, studentName, phone, preferredCourse, notes } = req.body;
+    const { collegeName, studentName, email, phone, preferredCourse, preferredState, notes } = req.body;
     const userId = (req as any).user?.id || null;
 
     if (!studentName || !phone || !collegeName) {
@@ -15,12 +16,25 @@ export const createEnquiry = async (req: Request, res: Response) => {
         userId,
         collegeName,
         studentName,
+        email: email || null,
         phone,
         preferredCourse: preferredCourse || 'MBBS',
+        preferredState: preferredState || null,
         notes: notes || '',
         status: 'NEW'
       }
     });
+
+    // Trigger non-blocking email notification to admin
+    sendAdminEnquiryNotification({
+      studentName,
+      phone,
+      email,
+      collegeName,
+      preferredCourse: preferredCourse || 'MBBS',
+      preferredState,
+      notes
+    }).catch((err) => console.warn('Background notification error:', err));
 
     res.status(201).json({
       success: true,

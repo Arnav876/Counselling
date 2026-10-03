@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { adminLogin } from '../controllers/adminAuthController.js';
 import {
   getOverview,
   getAdminColleges,
@@ -8,6 +9,7 @@ import {
   deleteAdminCollege,
   getAdminEnquiries,
   updateEnquiryStatus,
+  exportEnquiriesCSV,
   getAdminContacts,
   updateContactStatus,
   getAdminConversations,
@@ -17,11 +19,21 @@ import {
   addAuthorizedAdmin,
   revokeAuthorizedAdmin
 } from '../controllers/adminController.js';
+import {
+  getAdminBlogs,
+  getAdminBlogById,
+  createAdminBlog,
+  updateAdminBlog,
+  deleteAdminBlog
+} from '../controllers/blogController.js';
 import { authenticateUser, requireAdmin, requireSuperAdmin } from '../middleware/auth.js';
 
 const router = Router();
 
-// All admin routes require authentication and at least ADMIN role
+// Dedicated Admin Login Endpoint (publicly accessible with credentials)
+router.post('/login', adminLogin);
+
+// All other admin routes require JWT authentication and at least ADMIN role
 router.use(authenticateUser, requireAdmin);
 
 // Dashboard Overview
@@ -36,10 +48,19 @@ router.patch('/colleges/:id', updateAdminCollege);
 router.delete('/colleges/:id', deleteAdminCollege);
 
 // Student Enquiries & Direct Contact Requests
+router.get('/enquiries/export', exportEnquiriesCSV);
 router.get('/enquiries', getAdminEnquiries);
 router.patch('/enquiries/:id/status', updateEnquiryStatus);
 router.get('/contacts', getAdminContacts);
 router.patch('/contacts/:id/status', updateContactStatus);
+
+// Blog Management (Private & Government Categories)
+router.get('/blogs', getAdminBlogs);
+router.get('/blogs/:id', getAdminBlogById);
+router.post('/blogs', createAdminBlog);
+router.put('/blogs/:id', updateAdminBlog);
+router.patch('/blogs/:id', updateAdminBlog);
+router.delete('/blogs/:id', deleteAdminBlog);
 
 // AI Conversations Audit Log
 router.get('/conversations', getAdminConversations);

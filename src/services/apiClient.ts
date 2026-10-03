@@ -3,6 +3,10 @@ const getApiBase = () => {
   if (envUrl && typeof envUrl === 'string' && envUrl.trim() !== '') {
     return envUrl.trim().replace(/\/+$/, '');
   }
+  // In production (e.g. Vercel deployment), relative /api routes to serverless functions
+  if (import.meta.env.PROD) {
+    return '/api';
+  }
   return 'http://localhost:5001/api';
 };
 

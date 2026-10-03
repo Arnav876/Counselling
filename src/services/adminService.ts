@@ -10,12 +10,33 @@ export interface AdminOverviewStats {
     admins: number;
     enquiries: number;
     conversations: number;
+    blogs?: number;
   };
   recentEnquiries: any[];
   recentUsers: any[];
 }
 
 export const adminService = {
+  // Admin Dedicated Login
+  async adminLogin(credentials: { email: string; password: string }): Promise<{ success: boolean; token: string; user: User }> {
+    const res = await apiFetch('/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Admin authentication failed. Please verify credentials.');
+    }
+
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem('abc_auth_token', data.token);
+    }
+    return data;
+  },
+
   // Overview
   async getOverview(): Promise<AdminOverviewStats> {
     const res = await apiFetch('/admin/overview');
@@ -81,9 +102,11 @@ export const adminService = {
   },
 
   // Student Enquiries
-  async getEnquiries(params: { status?: string; page?: number; limit?: number }): Promise<{ enquiries: StudentEnquiry[]; total: number; page: number; totalPages: number }> {
+  async getEnquiries(params: { status?: string; search?: string; sort?: string; page?: number; limit?: number }): Promise<{ enquiries: StudentEnquiry[]; total: number; page: number; totalPages: number }> {
     const query = new URLSearchParams();
     if (params.status) query.append('status', params.status);
+    if (params.search) query.append('search', params.search);
+    if (params.sort) query.append('sort', params.sort);
     if (params.page) query.append('page', params.page.toString());
     if (params.limit) query.append('limit', params.limit.toString());
 
@@ -92,14 +115,20 @@ export const adminService = {
     return await res.json();
   },
 
-  async updateEnquiryStatus(id: string, status: 'NEW' | 'IN_PROGRESS' | 'RESOLVED'): Promise<any> {
+  async updateEnquiryStatus(id: string, status?: string, adminNote?: string): Promise<any> {
     const res = await apiFetch(`/admin/enquiries/${id}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status })
+      body: JSON.stringify({ status, adminNote })
     });
     if (!res.ok) throw new Error('Failed to update enquiry status');
     return await res.json();
+  },
+
+  async exportEnquiriesCSV(): Promise<Blob> {
+    const res = await apiFetch('/admin/enquiries/export');
+    if (!res.ok) throw new Error('Failed to export enquiries CSV');
+    return await res.blob();
   },
 
   // Contact Requests
@@ -114,11 +143,11 @@ export const adminService = {
     return await res.json();
   },
 
-  async updateContactStatus(id: string, status: 'NEW' | 'IN_PROGRESS' | 'RESOLVED'): Promise<any> {
+  async updateContactStatus(id: string, status?: string, adminNote?: string): Promise<any> {
     const res = await apiFetch(`/admin/contacts/${id}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status })
+      body: JSON.stringify({ status, adminNote })
     });
     if (!res.ok) throw new Error('Failed to update contact status');
     return await res.json();

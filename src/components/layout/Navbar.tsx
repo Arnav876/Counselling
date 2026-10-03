@@ -33,6 +33,7 @@ export const Navbar: React.FC = () => {
     { label: 'Home', path: '/' },
     { label: 'Colleges', path: '/colleges' },
     { label: 'Compare', path: '/compare' },
+    { label: 'Blogs', path: '/blogs' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' },
   ];
@@ -324,6 +325,19 @@ export const Navbar: React.FC = () => {
                       {compareList.length}/3
                     </span>
                   )}
+                </Link>
+
+                <Link
+                  to="/blogs"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`rounded-lg px-4 py-3 flex items-center gap-3 text-sm font-semibold transition-colors ${
+                    isActive('/blogs')
+                      ? 'bg-[#0757C9]/10 text-[#0757C9]'
+                      : 'text-[#12305A] hover:bg-[#F7FAFD]'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[20px]">menu_book</span>
+                  <span>Admissions Blog & Guides</span>
                 </Link>
 
                 {isAuthenticated && (

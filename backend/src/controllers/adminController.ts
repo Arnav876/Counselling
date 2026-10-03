@@ -14,6 +14,7 @@ export const getOverview = async (_req: Request, res: Response) => {
       enquiriesCount,
       contactsCount,
       conversationsCount,
+      blogsCount,
       recentEnquiries,
       recentUsers
     ] = await Promise.all([
@@ -24,6 +25,7 @@ export const getOverview = async (_req: Request, res: Response) => {
       prisma.enquiry.count(),
       prisma.contact.count(),
       prisma.conversation.count(),
+      prisma.blog.count(),
       prisma.enquiry.findMany({
         take: 6,
         orderBy: { createdAt: 'desc' },
@@ -43,7 +45,8 @@ export const getOverview = async (_req: Request, res: Response) => {
         students: studentsCount,
         admins: adminsCount,
         enquiries: enquiriesCount + contactsCount,
-        conversations: conversationsCount
+        conversations: conversationsCount,
+        blogs: blogsCount
       },
       recentEnquiries,
       recentUsers
@@ -359,7 +362,6 @@ export const updateAdminCollege = async (req: Request, res: Response) => {
       }
     });
 
-    // Update or create admissionInfo if supplied
     if (admissionInfo) {
       await prisma.admissionInfo.upsert({
         where: { collegeId: id },
@@ -383,7 +385,6 @@ export const updateAdminCollege = async (req: Request, res: Response) => {
       });
     }
 
-    // Update or create packageStats if supplied
     if (packageStats) {
       await prisma.packageStats.upsert({
         where: { collegeId: id },
@@ -436,12 +437,22 @@ export const deleteAdminCollege = async (req: Request, res: Response) => {
 export const getAdminEnquiries = async (req: Request, res: Response) => {
   try {
     const status = req.query.status as string;
+    const search = (req.query.search as string || '').trim();
+    const sort = (req.query.sort as string || 'newest');
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
 
     const where: any = {};
     if (status && status !== 'ALL') {
       where.status = status;
+    }
+    if (search) {
+      where.OR = [
+        { studentName: { contains: search, mode: 'insensitive' } },
+        { collegeName: { contains: search, mode: 'insensitive' } },
+        { phone: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } }
+      ];
     }
 
     const [total, enquiries] = await Promise.all([
@@ -450,7 +461,7 @@ export const getAdminEnquiries = async (req: Request, res: Response) => {
         where,
         skip: (page - 1) * limit,
         take: limit,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: sort === 'oldest' ? 'asc' : 'desc' },
         include: {
           user: { select: { id: true, name: true, email: true, avatar: true } }
         }
@@ -472,25 +483,66 @@ export const getAdminEnquiries = async (req: Request, res: Response) => {
 export const updateEnquiryStatus = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
-    const { status } = req.body;
+    const { status, adminNote, notes, note } = req.body;
 
-    if (!['NEW', 'IN_PROGRESS', 'RESOLVED'].includes(status)) {
-      return res.status(400).json({ error: 'Invalid status. Must be NEW, IN_PROGRESS, or RESOLVED' });
+    const validStatuses = ['NEW', 'IN_PROGRESS', 'CONTACTED', 'RESOLVED'];
+    if (status && !validStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status. Must be NEW, IN_PROGRESS, CONTACTED, or RESOLVED' });
+    }
+
+    const updateData: any = {};
+    if (status) updateData.status = status;
+    const noteVal = adminNote ?? notes ?? note;
+    if (noteVal !== undefined) {
+      updateData.adminNote = noteVal;
+      updateData.notes = noteVal;
     }
 
     const updated = await prisma.enquiry.update({
       where: { id },
-      data: { status }
+      data: updateData
     });
 
     res.json({
       success: true,
-      message: `Enquiry status updated to ${status}`,
+      message: `Enquiry updated successfully.`,
       enquiry: updated
     });
   } catch (error: any) {
     console.error('Error updating enquiry status:', error);
     res.status(500).json({ error: 'Failed to update enquiry status' });
+  }
+};
+
+export const exportEnquiriesCSV = async (_req: Request, res: Response) => {
+  try {
+    const enquiries = await prisma.enquiry.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { user: { select: { email: true } } }
+    });
+
+    const headers = ['Enquiry ID', 'Student Name', 'Phone', 'Email', 'College Name', 'Course', 'State', 'Status', 'Admin Note', 'Submitted At'];
+    const rows = enquiries.map(e => [
+      `"${e.id}"`,
+      `"${e.studentName.replace(/"/g, '""')}"`,
+      `"${e.phone}"`,
+      `"${e.email || e.user?.email || ''}"`,
+      `"${e.collegeName.replace(/"/g, '""')}"`,
+      `"${e.preferredCourse}"`,
+      `"${e.preferredState || ''}"`,
+      `"${e.status}"`,
+      `"${(e.adminNote || '').replace(/"/g, '""')}"`,
+      `"${new Date(e.createdAt).toISOString()}"`
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="admission_by_choice_enquiries.csv"');
+    res.status(200).send(csvContent);
+  } catch (error: any) {
+    console.error('Error exporting enquiries CSV:', error);
+    res.status(500).json({ error: 'Failed to export enquiries' });
   }
 };
 
@@ -534,20 +586,25 @@ export const getAdminContacts = async (req: Request, res: Response) => {
 export const updateContactStatus = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
-    const { status } = req.body;
+    const { status, adminNote } = req.body;
 
-    if (!['NEW', 'IN_PROGRESS', 'RESOLVED'].includes(status)) {
-      return res.status(400).json({ error: 'Invalid status. Must be NEW, IN_PROGRESS, or RESOLVED' });
+    const validStatuses = ['NEW', 'IN_PROGRESS', 'CONTACTED', 'RESOLVED'];
+    if (status && !validStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status. Must be NEW, IN_PROGRESS, CONTACTED, or RESOLVED' });
     }
+
+    const updateData: any = {};
+    if (status) updateData.status = status;
+    if (adminNote !== undefined) updateData.adminNote = adminNote;
 
     const updated = await prisma.contact.update({
       where: { id },
-      data: { status }
+      data: updateData
     });
 
     res.json({
       success: true,
-      message: `Contact request status updated to ${status}`,
+      message: `Contact request updated`,
       contact: updated
     });
   } catch (error: any) {
@@ -713,7 +770,6 @@ export const addAuthorizedAdmin = async (req: Request, res: Response) => {
       }
     });
 
-    // If a user with this email has already registered/signed in, elevate their role to ADMIN
     const existingUser = await prisma.user.findUnique({
       where: { email: normalizedEmail }
     });
@@ -727,7 +783,7 @@ export const addAuthorizedAdmin = async (req: Request, res: Response) => {
 
     res.status(201).json({
       success: true,
-      message: `Admin access authorized for ${normalizedEmail}. When they sign in with Google, they will receive ADMIN access.`,
+      message: `Admin access authorized for ${normalizedEmail}.`,
       authorizedAdmin: newAdminAuth
     });
   } catch (error: any) {
@@ -751,7 +807,6 @@ export const revokeAuthorizedAdmin = async (req: Request, res: Response) => {
 
     await prisma.authorizedAdmin.delete({ where: { id } });
 
-    // Revert user role back to STUDENT if they are in the database and not super admin
     const userRecord = await prisma.user.findUnique({ where: { email: record.email } });
     if (userRecord && userRecord.email.toLowerCase() !== SUPER_ADMIN_EMAIL.toLowerCase()) {
       await prisma.user.update({
