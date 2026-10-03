@@ -1,42 +1,6 @@
 import type { College, FilterState, SortOption, StateData } from '../types/college';
 import { POPULAR_STATES } from '../data/colleges';
-
-const getApiBase = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
-  if (envUrl && typeof envUrl === 'string' && envUrl.trim() !== '') {
-    return envUrl.trim().replace(/\/+$/, '');
-  }
-  return 'http://localhost:5001/api';
-};
-
-const API_BASE = getApiBase();
-
-/**
- * Robust fetch helper that calls API_BASE (http://localhost:5001/api)
- * and falls back to relative Vite proxy (/api) if direct connection fails.
- */
-async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  const primaryUrl = `${API_BASE}${cleanPath}`;
-  
-  try {
-    const res = await fetch(primaryUrl, options);
-    return res;
-  } catch (primaryErr) {
-    // If direct cross-origin request failed, attempt fallback via Vite local dev proxy
-    if (primaryUrl.includes(':5001/api')) {
-      const proxyUrl = `/api${cleanPath}`;
-      console.warn(`[API] Direct connection to ${primaryUrl} failed. Trying proxy ${proxyUrl}...`);
-      try {
-        const proxyRes = await fetch(proxyUrl, options);
-        return proxyRes;
-      } catch (proxyErr) {
-        throw primaryErr;
-      }
-    }
-    throw primaryErr;
-  }
-}
+import { apiFetch } from './apiClient';
 
 export interface EnquiryRequest {
   collegeName: string;

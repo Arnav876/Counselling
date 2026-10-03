@@ -51,8 +51,11 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next();
 });
 
+// API Router supporting both /api/* and root /* (for flexible Vercel serverless rewrites)
+const apiRouter = express.Router();
+
 // Health check endpoint
-app.get('/api/health', async (_req: Request, res: Response) => {
+apiRouter.get('/health', async (_req: Request, res: Response) => {
   try {
     const collegeCount = await prisma.college.count();
     res.json({
@@ -73,24 +76,28 @@ app.get('/api/health', async (_req: Request, res: Response) => {
 });
 
 // Direct management-types route for compatibility
-app.get('/api/management-types', (_req: Request, res: Response) => {
+apiRouter.get('/management-types', (_req: Request, res: Response) => {
   res.json([
     { id: 'General Management', label: 'General Management Quota' },
     { id: 'NRI', label: 'NRI Quota' }
   ]);
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/saved-colleges', savedCollegeRoutes);
-app.use('/api/conversations', conversationRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/colleges', collegeRoutes);
-app.use('/api/states', stateRoutes);
-app.use('/api/enquiries', enquiryRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/blogs', blogRoutes);
+// API Sub-Routes
+apiRouter.use('/auth', authRoutes);
+apiRouter.use('/saved-colleges', savedCollegeRoutes);
+apiRouter.use('/conversations', conversationRoutes);
+apiRouter.use('/admin', adminRoutes);
+apiRouter.use('/colleges', collegeRoutes);
+apiRouter.use('/states', stateRoutes);
+apiRouter.use('/enquiries', enquiryRoutes);
+apiRouter.use('/contacts', contactRoutes);
+apiRouter.use('/chat', chatRoutes);
+apiRouter.use('/blogs', blogRoutes);
+
+// Mount router on both /api and /
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // 404 Handler
 app.use((_req: Request, res: Response) => {
@@ -106,7 +113,12 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
-if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+if (
+  process.env.NODE_ENV !== 'test' &&
+  !process.env.VERCEL &&
+  !process.env.VERCEL_ENV &&
+  !process.env.NOW_REGION
+) {
   app.listen(PORT, () => {
     console.log(`⚡ [Backend] Admission by Choice Server running on http://localhost:${PORT}`);
     console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
