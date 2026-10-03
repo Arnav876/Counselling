@@ -14,17 +14,25 @@ import blogRoutes from './routes/blogRoutes.js';
 import prisma from './db/prisma.js';
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const PORT = Number(process.env.PORT) || 5001;
+const HOST = process.env.HOST || '0.0.0.0';
+const FRONTEND_URL = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/+$/, '') : 'http://localhost:5173';
 
-// Dynamic CORS configuration allowing all local frontend origins & configured FRONTEND_URL
+// Dynamic CORS configuration allowing configured FRONTEND_URL, extra origins, Render, Vercel & local development
+const configuredOrigins = (process.env.ADDITIONAL_ORIGINS || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
 const allowedOrigins = [
   FRONTEND_URL,
+  ...configuredOrigins,
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'http://localhost:5174',
   'http://127.0.0.1:5174',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'http://localhost:4173'
 ];
 
 app.use(cors({
@@ -32,7 +40,9 @@ app.use(cors({
     if (!origin) return callback(null, true);
     if (
       allowedOrigins.includes(origin) ||
-      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) ||
+      /\.onrender\.com$/.test(origin) ||
+      /\.vercel\.app$/.test(origin)
     ) {
       return callback(null, true);
     }
@@ -119,9 +129,9 @@ if (
   !process.env.VERCEL_ENV &&
   !process.env.NOW_REGION
 ) {
-  app.listen(PORT, () => {
-    console.log(`⚡ [Backend] Admission by Choice Server running on http://localhost:${PORT}`);
-    console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
+  app.listen(PORT, HOST, () => {
+    console.log(`⚡ [Backend] Admission by Choice Server running on http://${HOST}:${PORT}`);
+    console.log(`📡 Health Check: http://${HOST}:${PORT}/api/health`);
   });
 }
 

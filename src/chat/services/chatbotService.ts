@@ -1,15 +1,6 @@
 import type { SuggestedQuestion } from '../types/chat';
 import type { StudentPreferences } from '../types/preferences';
-
-const getApiBase = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
-  if (envUrl && typeof envUrl === 'string' && envUrl.trim() !== '') {
-    return envUrl.trim().replace(/\/+$/, '');
-  }
-  return 'http://localhost:5001/api';
-};
-
-const API_BASE = getApiBase();
+import { apiFetch } from '../../services/apiClient';
 
 /**
  * Chatbot Service Interface
@@ -36,33 +27,16 @@ export class ChatbotService implements IChatbotService {
       previousCollegeIds
     };
 
-    try {
-      // 1. Try direct API_BASE
-      const directUrl = `${API_BASE}/chat`;
-      const res = await fetch(directUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+    const res = await apiFetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
-      if (res.ok) {
-        return await res.json();
-      }
-      throw new Error(`Direct API responded with status ${res.status}`);
-    } catch (directErr) {
-      console.warn('[ChatbotService] Direct API call failed, retrying via /api/chat proxy...', directErr);
-      // 2. Fallback to Vite proxy
-      const proxyRes = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!proxyRes.ok) {
-        throw new Error(`Chat API error: ${proxyRes.status} ${proxyRes.statusText}`);
-      }
-      return await proxyRes.json();
+    if (!res.ok) {
+      throw new Error(`Chat API error: ${res.status} ${res.statusText}`);
     }
+    return await res.json();
   }
 
   getInitialSuggestions(): SuggestedQuestion[] {
