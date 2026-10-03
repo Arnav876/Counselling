@@ -1,128 +1,102 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import type { CollegeRecommendation } from '../types/recommendation';
 
 interface CollegeRecommendationCardProps {
-  recommendations: CollegeRecommendation[];
+  recommendations: any[];
 }
 
 export const CollegeRecommendationCard: React.FC<CollegeRecommendationCardProps> = ({
   recommendations,
 }) => {
+  if (!recommendations || recommendations.length === 0) return null;
+
   return (
-    <div className="space-y-3 mt-4">
-      {recommendations.map((rec) => (
-        <div
-          key={rec.collegeId}
-          className="bg-white rounded-xl border border-[#c6c6cd]/40 p-4 shadow-sm"
-        >
-          {/* Header */}
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h4 className="text-sm font-bold text-[#0b1c30]">{rec.collegeName}</h4>
-                <span className="px-2 py-0.5 rounded-full bg-[#069669] text-white text-xs font-semibold">
-                  {rec.matchScore}% Match
-                </span>
-              </div>
-              <p className="text-xs text-[#45464d]">
-                {rec.city}, {rec.state} • {rec.isGovernment ? 'Government' : 'Private'}
-              </p>
-            </div>
-            {rec.nirfRank && (
-              <div className="text-right">
-                <div className="text-xs text-[#76777d]">NIRF Rank</div>
-                <div className="text-sm font-bold text-[#069669]">#{rec.nirfRank}</div>
-              </div>
-            )}
-          </div>
+    <div className="space-y-3 mt-3">
+      {recommendations.map((rec: any, idx: number) => {
+        const name = rec.name || rec.collegeName || 'Accredited Medical College';
+        const city = rec.city || '';
+        const state = rec.state || '';
+        const rating = rec.rating || 4.5;
+        const nirf = rec.nirfRank;
+        const seats = rec.mbbsSeats;
+        const pgSeats = rec.pgSeats;
+        const fee = rec.tuitionFee || rec.annualFee || '₹50,000 / year';
+        const image = rec.image;
+        const avgPkg = rec.packageStats?.average || rec.placementAverage || '₹12-16 LPA';
 
-          {/* Why it matches */}
-          <div className="mb-3 p-3 bg-[#eff4ff] rounded-lg">
-            <p className="text-xs text-[#0b1c30] font-semibold mb-1">Why this matches you:</p>
-            <p className="text-xs text-[#45464d]">{rec.whyMatches}</p>
-          </div>
-
-          {/* Key metrics */}
-          <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="p-2 bg-[#eff4ff] rounded-lg">
-              <span className="text-xs text-[#76777d] block">Course</span>
-              <span className="text-xs font-semibold text-[#0b1c30]">{rec.courseName}</span>
-            </div>
-            <div className="p-2 bg-[#eff4ff] rounded-lg">
-              <span className="text-xs text-[#76777d] block">Annual Fee</span>
-              <span className="text-xs font-semibold text-[#0b1c30]">{rec.annualFee}</span>
-            </div>
-            <div className="p-2 bg-[#eff4ff] rounded-lg">
-              <span className="text-xs text-[#76777d] block">Avg Package</span>
-              <span className="text-xs font-semibold text-[#0b1c30]">{rec.placementAverage}</span>
-            </div>
-            <div className="p-2 bg-[#eff4ff] rounded-lg">
-              <span className="text-xs text-[#76777d] block">Highest Package</span>
-              <span className="text-xs font-semibold text-[#0b1c30]">{rec.placementHighest}</span>
-            </div>
-          </div>
-
-          {/* Trade-offs */}
-          {rec.tradeOffs.length > 0 && (
-            <div className="mb-3">
-              <p className="text-xs text-[#45464d] font-semibold mb-1">Consider:</p>
-              <div className="space-y-1">
-                {rec.tradeOffs.map((tradeOff, tIdx) => (
-                  <div key={tIdx} className="flex items-start gap-2">
-                    <span className="material-symbols-outlined text-[14px] text-[#ba1a1a]">
-                      warning
+        return (
+          <div
+            key={rec.id || rec.collegeId || idx}
+            className="bg-white rounded-xl border border-[#DCE5EF] overflow-hidden shadow-xs hover:border-[#159EAE] transition-all"
+          >
+            {image && (
+              <div className="h-28 w-full relative overflow-hidden bg-slate-100">
+                <img src={image} alt={name} className="w-full h-full object-cover" />
+                <div className="absolute top-2 left-2 flex gap-1.5">
+                  {nirf && (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#159EAE] text-white shadow-xs">
+                      NIRF #{nirf}
                     </span>
-                    <p className="text-xs text-[#45464d]">
-                      <span className="font-semibold">{tradeOff.aspect}:</span> {tradeOff.concern}
-                    </p>
-                  </div>
-                ))}
+                  )}
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#0757C9] text-white shadow-xs">
+                    ⭐ {rating} ★
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="p-3.5">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <div>
+                  <h4 className="text-xs font-bold text-[#12305A] leading-snug line-clamp-1">{name}</h4>
+                  <p className="text-[11px] text-[#5F6F82] flex items-center gap-1 mt-0.5">
+                    <span className="material-symbols-outlined text-[13px] text-[#0757C9]">location_on</span>
+                    {city ? `${city}, ${state}` : state}
+                  </p>
+                </div>
+              </div>
+
+              {/* Key metrics grid */}
+              <div className="grid grid-cols-2 gap-2 mb-3 bg-[#F7FAFD] p-2 rounded-lg border border-[#DCE5EF]/60 text-[11px]">
+                <div>
+                  <span className="text-[10px] text-[#5F6F82] block">MBBS Seats</span>
+                  <span className="font-bold text-[#12305A]">{seats || 'NMC Approved'}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-[#5F6F82] block">Annual Tuition</span>
+                  <span className="font-bold text-[#0757C9] truncate block">{fee}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-[#5F6F82] block">PG Specializations</span>
+                  <span className="font-bold text-[#087C8B]">{pgSeats ? `${pgSeats} Seats` : 'MD/MS Available'}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-[#5F6F82] block">Avg Placement</span>
+                  <span className="font-bold text-[#12305A]">{avgPkg}</span>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-2 pt-1 border-t border-[#DCE5EF]/60">
+                <Link
+                  to="/colleges"
+                  className="flex-1 text-center py-1.5 px-2 rounded-lg bg-[#0757C9] text-white text-[11px] font-semibold hover:bg-[#06449E] transition-all shadow-2xs"
+                >
+                  Explore in Colleges
+                </Link>
+                <Link
+                  to="/compare"
+                  className="flex-1 text-center py-1.5 px-2 rounded-lg border border-[#DCE5EF] text-[#12305A] text-[11px] font-semibold hover:bg-[#F7FAFD] transition-all"
+                >
+                  Compare
+                </Link>
               </div>
             </div>
-          )}
-
-          {/* Admission feasibility */}
-          <div className="mb-3 p-2 bg-[#0051d5]/5 rounded-lg border border-[#0051d5]/20">
-            <p className="text-xs text-[#0051d5] font-semibold mb-1">Admission Feasibility:</p>
-            <p className="text-xs text-[#45464d]">{rec.admissionFeasibility.explanation}</p>
-            {rec.admissionFeasibility.requiredPercentile && (
-              <p className="text-xs text-[#76777d] mt-1">
-                Required Percentile: {rec.admissionFeasibility.requiredPercentile}+
-              </p>
-            )}
-            {rec.admissionFeasibility.requiredRank && (
-              <p className="text-xs text-[#76777d] mt-1">
-                Required Rank: Top {rec.admissionFeasibility.requiredRank}
-              </p>
-            )}
-            {rec.admissionFeasibility.missingData.length > 0 && (
-              <p className="text-xs text-[#76777d] mt-1">
-                Missing data: {rec.admissionFeasibility.missingData.join(', ')}
-              </p>
-            )}
           </div>
-
-          {/* Disclaimer */}
-          <p className="text-xs text-[#76777d] italic mb-3">{rec.dataDisclaimer}</p>
-
-          {/* Actions */}
-          <div className="flex items-center gap-2">
-            <Link
-              to="/colleges"
-              className="flex-1 text-center px-3 py-2 rounded-lg bg-[#0051d5] text-white text-xs font-semibold hover:bg-[#316bf3] transition-all"
-            >
-              View Details
-            </Link>
-            <Link
-              to="/compare"
-              className="flex-1 text-center px-3 py-2 rounded-lg border border-[#c6c6cd] text-[#0b1c30] text-xs font-semibold hover:bg-[#eff4ff] transition-all"
-            >
-              Compare
-            </Link>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
+

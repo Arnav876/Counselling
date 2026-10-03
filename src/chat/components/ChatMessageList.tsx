@@ -17,33 +17,34 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
   onSuggestedQuestion,
 }) => {
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+    <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-white">
       {/* Welcome message */}
       {messages.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-8"
+          className="text-center py-6"
         >
-          <div className="w-16 h-16 rounded-full bg-[#0051d5]/10 text-[#0051d5] flex items-center justify-center mx-auto mb-4">
-            <span className="material-symbols-outlined text-[32px]">school</span>
+          <div className="w-16 h-16 rounded-2xl bg-[#159EAE]/10 text-[#159EAE] flex items-center justify-center mx-auto mb-4 border border-[#159EAE]/20">
+            <span className="material-symbols-outlined text-[32px]">smart_toy</span>
           </div>
-          <h3 className="text-lg font-bold text-[#0b1c30] mb-2">Welcome to College Advisor</h3>
-          <p className="text-sm text-[#45464d] mb-6">
-            Tell me about your exam, rank, preferences, and I'll help you find the best colleges.
+          <h3 className="text-lg font-bold text-[#12305A] mb-1.5">Welcome to College Advisor AI</h3>
+          <p className="text-xs sm:text-sm text-[#5F6F82] max-w-xs mx-auto mb-6 leading-relaxed">
+            Tell me about your entrance exam, percentile/rank, and preferences to discover best-match colleges.
           </p>
 
           {/* Suggested Questions */}
-          <div className="space-y-2">
-            <p className="text-xs font-semibold text-[#45464d] mb-3">Try asking:</p>
+          <div className="space-y-2 text-left">
+            <p className="text-xs font-bold text-[#12305A] mb-2 px-1">Try asking:</p>
             {suggestedQuestions.map((question) => (
               <button
                 key={question.id}
                 type="button"
                 onClick={() => onSuggestedQuestion(question)}
-                className="w-full text-left px-4 py-3 rounded-lg border border-[#c6c6cd] bg-white hover:bg-[#eff4ff] hover:border-[#0051d5] transition-all text-sm text-[#0b1c30]"
+                className="w-full text-left px-3.5 py-2.5 rounded-xl border border-[#DCE5EF] bg-[#F7FAFD] hover:bg-white hover:border-[#159EAE] transition-all text-xs font-medium text-[#12305A] shadow-2xs hover:shadow-xs cursor-pointer flex items-center justify-between group"
               >
-                {question.text}
+                <span>{question.text}</span>
+                <span className="material-symbols-outlined text-[16px] text-[#159EAE] opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
               </button>
             ))}
           </div>
@@ -61,13 +62,13 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+              className={`max-w-[85%] rounded-2xl px-4 py-3 shadow-2xs ${
                 message.role === 'user'
-                  ? 'bg-[#0051d5] text-white'
-                  : 'bg-[#eff4ff] text-[#0b1c30]'
+                  ? 'bg-[#0757C9] text-white'
+                  : 'bg-[#F7FAFD] text-[#12305A] border border-[#DCE5EF]'
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+              <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
 
               {/* Attachments (College Recommendations) */}
               {message.attachments?.map((attachment, idx) => (
@@ -91,11 +92,11 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
             exit={{ opacity: 0, y: -10 }}
             className="flex justify-start"
           >
-            <div className="bg-[#eff4ff] rounded-2xl px-4 py-3">
-              <div className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#0051d5] animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-2 h-2 rounded-full bg-[#0051d5] animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-2 h-2 rounded-full bg-[#0051d5] animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="bg-[#F7FAFD] border border-[#DCE5EF] rounded-2xl px-4 py-3 shadow-2xs">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#159EAE] animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 rounded-full bg-[#159EAE] animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 rounded-full bg-[#159EAE] animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           </motion.div>

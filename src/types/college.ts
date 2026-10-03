@@ -46,11 +46,13 @@ export interface College {
   name: string;
   shortName: string;
   slug: string;
+  code?: string;
   logo: string;
   image: string;
   city: string;
   state: string;
   distance: number; // in km
+  management?: string; // Government, Private, Deemed
   managementTypes: ManagementType[]; // General Management, NRI, or both
   rating: number;
   reviewsCount: number;
@@ -72,6 +74,8 @@ export interface College {
   packageStats: PackageStats;
   campusArea?: string;
   studentFacultyRatio?: string;
+  mbbsSeats?: number;
+  pgSeats?: number;
 }
 
 export interface FilterState {

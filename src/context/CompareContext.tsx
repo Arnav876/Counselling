@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { College } from '../types/college';
+import { authService } from '../services/authService';
 
 interface CompareContextType {
   compareList: College[];
@@ -9,7 +10,7 @@ interface CompareContextType {
   isInCompare: (collegeId: string) => boolean;
 
   savedColleges: string[];
-  toggleBookmark: (collegeId: string) => void;
+  toggleBookmark: (collegeId: string) => Promise<void>;
   isBookmarked: (collegeId: string) => boolean;
 
   toastMessage: string | null;
@@ -30,7 +31,7 @@ const CompareContext = createContext<CompareContextType | undefined>(undefined);
 export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [compareList, setCompareList] = useState<College[]>(() => {
     try {
-      const saved = localStorage.getItem('educompass_compare');
+      const saved = localStorage.getItem('abc_compare') || localStorage.getItem('educompass_compare');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -39,7 +40,7 @@ export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [savedColleges, setSavedColleges] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('educompass_bookmarks');
+      const saved = localStorage.getItem('abc_bookmarks') || localStorage.getItem('educompass_bookmarks');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -51,9 +52,28 @@ export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [enquiryCollege, setEnquiryCollege] = useState('');
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
 
+  // Sync saved colleges from server if user is logged in
+  const syncServerSavedColleges = useCallback(async () => {
+    const token = localStorage.getItem('abc_auth_token');
+    if (token) {
+      try {
+        const ids = await authService.getSavedCollegeIds();
+        if (ids && ids.length > 0) {
+          setSavedColleges(prev => Array.from(new Set([...prev, ...ids])));
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    syncServerSavedColleges();
+  }, [syncServerSavedColleges]);
+
   useEffect(() => {
     try {
-      localStorage.setItem('educompass_compare', JSON.stringify(compareList));
+      localStorage.setItem('abc_compare', JSON.stringify(compareList));
     } catch (e) {
       console.error(e);
     }
@@ -61,7 +81,7 @@ export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   useEffect(() => {
     try {
-      localStorage.setItem('educompass_bookmarks', JSON.stringify(savedColleges));
+      localStorage.setItem('abc_bookmarks', JSON.stringify(savedColleges));
     } catch (e) {
       console.error(e);
     }
@@ -106,13 +126,29 @@ export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return compareList.some((c) => c.id === collegeId);
   };
 
-  const toggleBookmark = (collegeId: string) => {
+  const toggleBookmark = async (collegeId: string) => {
     const exists = savedColleges.includes(collegeId);
+    const token = localStorage.getItem('abc_auth_token');
+
     if (exists) {
       setSavedColleges((prev) => prev.filter((id) => id !== collegeId));
+      if (token) {
+        try {
+          await authService.unsaveCollege(collegeId);
+        } catch (e) {
+          console.error(e);
+        }
+      }
       showToast('Removed from saved colleges.');
     } else {
       setSavedColleges((prev) => [...prev, collegeId]);
+      if (token) {
+        try {
+          await authService.saveCollege(collegeId);
+        } catch (e) {
+          console.error(e);
+        }
+      }
       showToast('Saved to your shortlisted colleges.');
     }
   };

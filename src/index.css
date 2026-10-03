@@ -1,40 +1,41 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary-blue: #0757C9;
+  --color-dark-blue: #06449E;
+  --color-teal: #159EAE;
+  --color-dark-teal: #087C8B;
+  --color-coral: #F04A35;
+  --color-golden-yellow: #FFBE2E;
+  --color-primary-text: #12305A;
+  --color-secondary-text: #5F6F82;
+  --color-page-bg: #F7FAFD;
+  --color-surface: #FFFFFF;
+  --color-border: #DCE5EF;
+
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 @layer base {
   :root {
-    --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-    /* Stitch Academic Discovery Palette */
-    --color-surface: #f8f9ff;
-    --color-surface-dim: #cbdbf5;
-    --color-surface-bright: #f8f9ff;
-    --color-surface-container-lowest: #ffffff;
-    --color-surface-container-low: #eff4ff;
-    --color-surface-container: #e5eeff;
-    --color-surface-container-high: #dce9ff;
-    --color-surface-container-highest: #d3e4fe;
-    --color-on-surface: #0b1c30;
-    --color-on-surface-variant: #45464d;
-    --color-inverse-surface: #213145;
-    --color-inverse-on-surface: #eaf1ff;
-    --color-outline: #76777d;
-    --color-outline-variant: #c6c6cd;
-    --color-secondary: #0051d5;
-    --color-on-secondary: #ffffff;
-    --color-secondary-container: #316bf3;
-    --color-on-secondary-container: #fefcff;
-    --color-tertiary-container: #002114;
-    --color-on-tertiary-container: #069669;
-    --color-secondary-fixed: #dbe1ff;
-    --color-on-secondary-fixed: #00174b;
-    --color-error: #ba1a1a;
+    --color-primary: #0757C9;
+    --color-primary-dark: #06449E;
+    --color-teal: #159EAE;
+    --color-teal-dark: #087C8B;
+    --color-coral: #F04A35;
+    --color-yellow: #FFBE2E;
+    --color-text: #12305A;
+    --color-text-muted: #5F6F82;
+    --color-bg: #F7FAFD;
+    --color-surface: #FFFFFF;
+    --color-border: #DCE5EF;
   }
 
   body {
     font-family: var(--font-body);
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
+    background-color: #F7FAFD;
+    color: #12305A;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -42,6 +43,7 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.02em;
+    color: #12305A;
   }
 }
 
@@ -58,27 +60,66 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #eff4ff;
+  background: #F7FAFD;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #c6c6cd;
+  background: #DCE5EF;
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #159EAE;
 }
 
 /* Glassmorphic elements */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .glass-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+}
+
+/* Brand Button Utilities */
+.btn-primary {
+  background-color: #0757C9;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: #06449E;
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: #0757C9;
+  border: 1px solid #DCE5EF;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background-color: #F7FAFD;
+  border-color: #0757C9;
+}
+
+.btn-teal {
+  background-color: #159EAE;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.btn-teal:hover {
+  background-color: #087C8B;
+}
+
+.btn-coral {
+  background-color: #F04A35;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.btn-coral:hover {
+  background-color: #d83a26;
 }

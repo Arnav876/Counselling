@@ -24,23 +24,23 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled })
   };
 
   return (
-    <div className="p-4 border-t border-[#c6c6cd]/30 bg-white">
+    <div className="p-3.5 border-t border-[#DCE5EF] bg-white">
       <div className="flex items-end gap-2">
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
+          placeholder="Ask anything about colleges, cutoffs, NRI seats..."
           disabled={disabled}
           rows={1}
-          className="flex-1 resize-none rounded-xl border border-[#c6c6cd] px-4 py-3 text-sm text-[#0b1c30] placeholder:text-[#76777d] focus:border-[#0051d5] focus:ring-1 focus:ring-[#0051d5] focus:outline-none disabled:opacity-50 max-h-32"
-          style={{ minHeight: '48px' }}
+          className="flex-1 resize-none rounded-xl border border-[#DCE5EF] px-3.5 py-2.5 text-xs sm:text-sm text-[#12305A] placeholder:text-[#5F6F82]/60 focus:border-[#159EAE] focus:ring-1 focus:ring-[#159EAE] focus:outline-none disabled:opacity-50 max-h-32 bg-[#F7FAFD]"
+          style={{ minHeight: '44px' }}
         />
         <button
           type="button"
           onClick={handleSend}
           disabled={disabled || !input.trim()}
-          className="w-12 h-12 rounded-xl bg-[#0051d5] text-white flex items-center justify-center hover:bg-[#316bf3] transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          className="w-11 h-11 rounded-xl bg-[#159EAE] text-white flex items-center justify-center hover:bg-[#087C8B] transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer shadow-xs"
         >
           <span className="material-symbols-outlined text-[20px]">send</span>
         </button>

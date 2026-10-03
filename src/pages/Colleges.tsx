@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCompare } from '../context/CompareContext';
 import { collegeService } from '../services/collegeService';
-import type { College, FilterState, SortOption } from '../types/college';
+import type { College, FilterState, SortOption, StateData } from '../types/college';
 import { StaggerContainer, StaggerItem } from '../components/ui/motion';
 
 export const Colleges: React.FC = () => {
@@ -11,6 +11,8 @@ export const Colleges: React.FC = () => {
 
   const [colleges, setColleges] = useState<College[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [availableStates, setAvailableStates] = useState<StateData[]>([]);
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
 
   // Filter state
@@ -32,6 +34,11 @@ export const Colleges: React.FC = () => {
     }
   }, [location.state]);
 
+  // Load states for filter
+  useEffect(() => {
+    collegeService.getPopularStates().then(setAvailableStates).catch(console.error);
+  }, []);
+
   // Load colleges
   useEffect(() => {
     loadColleges();
@@ -39,9 +46,17 @@ export const Colleges: React.FC = () => {
 
   const loadColleges = async () => {
     setLoading(true);
-    const result = await collegeService.getColleges(filters, sort);
-    setColleges(result);
-    setLoading(false);
+    setError(null);
+    try {
+      const result = await collegeService.getColleges(filters, sort);
+      setColleges(result);
+    } catch (err: any) {
+      console.error('Failed to load colleges:', err);
+      setError('Unable to load colleges from backend. Please ensure the server is running.');
+      setColleges([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFilterChange = (key: keyof FilterState, value: any) => {
@@ -78,18 +93,18 @@ export const Colleges: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#F7FAFD]">
       {/* Header / Control bar */}
-      <div className="bg-white border-b border-[#c6c6cd]/30">
+      <div className="bg-white border-b border-[#DCE5EF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#c6c6cd]/30">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#DCE5EF]">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#0b1c30]">Explore Institutions</h2>
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#12305A]">Explore Institutions</h1>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-sm font-bold text-[#0051d5]">
+                <span className="text-sm font-bold text-[#0757C9]">
                   Showing {colleges.length} Colleges Found
                 </span>
-                <span className="text-[#45464d] text-xs">• Verified Admissions 2025</span>
+                <span className="text-[#5F6F82] text-xs">• Verified Admissions 2025-26</span>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -97,19 +112,19 @@ export const Colleges: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setMobileFilterOpen(true)}
-                className="lg:hidden inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#c6c6cd] bg-white text-[#0b1c30] text-xs font-semibold hover:bg-[#eff4ff] transition-colors"
+                className="lg:hidden inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#DCE5EF] bg-white text-[#12305A] text-xs font-semibold hover:bg-[#F7FAFD] transition-colors cursor-pointer shadow-xs"
               >
-                <span className="material-symbols-outlined text-[18px]">tune</span>
+                <span className="material-symbols-outlined text-[18px] text-[#0757C9]">tune</span>
                 <span>Filter Options</span>
               </button>
               {/* Sort By Selector */}
               <div className="relative flex items-center">
-                <span className="text-xs text-[#45464d] mr-2 hidden sm:inline">Sort by:</span>
+                <span className="text-xs text-[#5F6F82] mr-2 hidden sm:inline">Sort by:</span>
                 <div className="relative">
                   <select
                     value={sort}
                     onChange={(e) => setSort(e.target.value as SortOption)}
-                    className="h-10 pl-3 pr-8 rounded-lg border border-[#c6c6cd] text-sm text-[#0b1c30] bg-white appearance-none focus:border-[#0051d5] focus:ring-1 focus:ring-[#0051d5]"
+                    className="h-10 pl-3 pr-8 rounded-lg border border-[#DCE5EF] text-sm text-[#12305A] bg-white appearance-none focus:border-[#0757C9] focus:ring-1 focus:ring-[#0757C9] cursor-pointer"
                   >
                     <option value="relevance">Relevance</option>
                     <option value="distance-asc">Distance: Low to High</option>
@@ -117,7 +132,7 @@ export const Colleges: React.FC = () => {
                     <option value="rating-desc">Rating: High to Low</option>
                     <option value="name-asc">Name: A-Z</option>
                   </select>
-                  <span className="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#76777d] text-[18px]">
+                  <span className="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#5F6F82] text-[18px]">
                     expand_more
                   </span>
                 </div>
@@ -128,16 +143,16 @@ export const Colleges: React.FC = () => {
           {/* Layout Grid: Desktop Sidebar (3 cols) + College Card Feed (9 cols) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Desktop Sidebar Filters */}
-            <aside className="hidden lg:block lg:col-span-3 sticky top-24 space-y-6 bg-white p-5 rounded-2xl border border-[#c6c6cd]/40 shadow-sm">
-              <div className="flex items-center justify-between pb-3 border-b border-[#c6c6cd]/30">
-                <h3 className="text-sm font-semibold text-[#0b1c30] flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#0051d5] text-[20px]">filter_alt</span>
+            <aside className="hidden lg:block lg:col-span-3 sticky top-24 space-y-6 bg-white p-5 rounded-2xl border border-[#DCE5EF] shadow-xs">
+              <div className="flex items-center justify-between pb-3 border-b border-[#DCE5EF]">
+                <h3 className="text-sm font-bold text-[#12305A] flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#0757C9] text-[20px]">filter_alt</span>
                   Filters
                 </h3>
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="text-xs text-[#0051d5] hover:underline"
+                  className="text-xs font-semibold text-[#0757C9] hover:text-[#06449E] transition-colors cursor-pointer"
                 >
                   Clear All
                 </button>
@@ -145,39 +160,36 @@ export const Colleges: React.FC = () => {
 
               {/* Search */}
               <div>
-                <label className="block text-xs font-semibold text-[#0b1c30] mb-2">Search</label>
+                <label className="block text-xs font-semibold text-[#12305A] mb-2">Search</label>
                 <input
                   type="text"
                   value={filters.search}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
                   placeholder="College name, city, or course..."
-                  className="w-full h-10 px-3 rounded-lg border border-[#c6c6cd] text-sm text-[#0b1c30] bg-white focus:border-[#0051d5] focus:ring-1 focus:ring-[#0051d5]"
+                  className="w-full h-10 px-3 rounded-lg border border-[#DCE5EF] text-sm text-[#12305A] bg-white placeholder:text-[#5F6F82]/60 focus:border-[#0757C9] focus:ring-1 focus:ring-[#0757C9]"
                 />
               </div>
 
               {/* State Filter */}
               <div>
-                <label className="block text-xs font-semibold text-[#0b1c30] mb-2">State / Region</label>
+                <label className="block text-xs font-semibold text-[#12305A] mb-2">State / Region</label>
                 <select
                   value={filters.state}
                   onChange={(e) => handleFilterChange('state', e.target.value)}
-                  className="w-full h-10 px-3 rounded-lg border border-[#c6c6cd] text-sm text-[#0b1c30] bg-white"
+                  className="w-full h-10 px-3 rounded-lg border border-[#DCE5EF] text-sm text-[#12305A] bg-white focus:border-[#0757C9] focus:ring-1 focus:ring-[#0757C9]"
                 >
-                  <option value="ALL">All States</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Telangana">Telangana</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="ALL">All States ({availableStates.reduce((acc, s) => acc + s.collegeCount, 0) || '800+'})</option>
+                  {availableStates.map((s) => (
+                    <option key={s.name} value={s.name}>
+                      {s.name} ({s.collegeCount})
+                    </option>
+                  ))}
                 </select>
               </div>
 
               {/* Distance Filter */}
               <div>
-                <label className="block text-xs font-semibold text-[#0b1c30] mb-2">Maximum Distance</label>
+                <label className="block text-xs font-semibold text-[#12305A] mb-2">Maximum Distance</label>
                 <div className="space-y-2">
                   {[
                     { value: 'all', label: 'Any Proximity' },
@@ -187,13 +199,13 @@ export const Colleges: React.FC = () => {
                     { value: '100', label: 'Within 100 km' },
                     { value: '100+', label: '100+ km' },
                   ].map((option) => (
-                    <label key={option.value} className="flex items-center gap-2.5 text-sm text-[#45464d] cursor-pointer">
+                    <label key={option.value} className="flex items-center gap-2.5 text-sm text-[#5F6F82] hover:text-[#12305A] cursor-pointer">
                       <input
                         type="radio"
                         name="distance_rad"
                         checked={filters.distance === option.value}
                         onChange={() => handleFilterChange('distance', option.value)}
-                        className="text-[#0051d5] focus:ring-[#0051d5] w-4 h-4 border-[#c6c6cd]"
+                        className="text-[#0757C9] focus:ring-[#0757C9] w-4 h-4 border-[#DCE5EF]"
                       />
                       <span>{option.label}</span>
                     </label>
@@ -202,24 +214,24 @@ export const Colleges: React.FC = () => {
               </div>
 
               {/* Management Type Checkboxes */}
-              <div className="pt-2 border-t border-[#c6c6cd]/30">
-                <label className="block text-xs font-semibold text-[#0b1c30] mb-2">Management Quota</label>
+              <div className="pt-2 border-t border-[#DCE5EF]">
+                <label className="block text-xs font-semibold text-[#12305A] mb-2">Management Quota</label>
                 <div className="space-y-2.5">
-                  <label className="flex items-center gap-2.5 text-sm text-[#45464d] cursor-pointer">
+                  <label className="flex items-center gap-2.5 text-sm text-[#5F6F82] hover:text-[#12305A] cursor-pointer">
                     <input
                       type="checkbox"
                       checked={filters.managementType?.includes('General Management')}
                       onChange={() => handleManagementToggle('General Management')}
-                      className="rounded text-[#0051d5] focus:ring-[#0051d5] w-4 h-4 border-[#c6c6cd]"
+                      className="rounded text-[#0757C9] focus:ring-[#0757C9] w-4 h-4 border-[#DCE5EF]"
                     />
                     <span>General Management</span>
                   </label>
-                  <label className="flex items-center gap-2.5 text-sm text-[#45464d] cursor-pointer">
+                  <label className="flex items-center gap-2.5 text-sm text-[#5F6F82] hover:text-[#12305A] cursor-pointer">
                     <input
                       type="checkbox"
                       checked={filters.managementType?.includes('NRI')}
                       onChange={() => handleManagementToggle('NRI')}
-                      className="rounded text-[#0051d5] focus:ring-[#0051d5] w-4 h-4 border-[#c6c6cd]"
+                      className="rounded text-[#0757C9] focus:ring-[#0757C9] w-4 h-4 border-[#DCE5EF]"
                     />
                     <span>NRI Seat Quota</span>
                   </label>
@@ -229,7 +241,7 @@ export const Colleges: React.FC = () => {
               <button
                 type="button"
                 onClick={loadColleges}
-                className="w-full py-2.5 rounded-lg bg-[#0b1c30] text-white text-xs font-semibold hover:bg-[#213145] transition-all active:scale-[0.98]"
+                className="w-full py-2.5 rounded-lg bg-[#0757C9] text-white text-xs font-semibold hover:bg-[#06449E] transition-all active:scale-[0.98] shadow-sm cursor-pointer"
               >
                 Apply Filters
               </button>
@@ -237,26 +249,41 @@ export const Colleges: React.FC = () => {
 
             {/* College Card Feed (9 cols) */}
             <div className="col-span-1 lg:col-span-9 space-y-5">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-red-500">error</span>
+                    <span>{error}</span>
+                  </div>
+                  <button
+                    onClick={loadColleges}
+                    className="px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+
               {loading ? (
                 <div className="text-center py-16">
-                  <div className="w-16 h-16 rounded-full bg-[#eff4ff] text-[#76777d] flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 rounded-full bg-[#159EAE]/10 text-[#159EAE] flex items-center justify-center mx-auto mb-4">
                     <span className="material-symbols-outlined text-[32px] animate-spin">refresh</span>
                   </div>
-                  <p className="text-sm text-[#45464d]">Loading colleges...</p>
+                  <p className="text-sm text-[#5F6F82]">Loading colleges...</p>
                 </div>
               ) : colleges.length === 0 ? (
-                <div className="text-center py-16 bg-white rounded-2xl border border-[#c6c6cd]/40 p-8">
-                  <div className="w-16 h-16 rounded-full bg-[#eff4ff] text-[#76777d] flex items-center justify-center mx-auto mb-4">
+                <div className="text-center py-16 bg-white rounded-2xl border border-[#DCE5EF] p-8 shadow-xs">
+                  <div className="w-16 h-16 rounded-full bg-[#0757C9]/10 text-[#0757C9] flex items-center justify-center mx-auto mb-4">
                     <span className="material-symbols-outlined text-[32px]">manage_search</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-[#0b1c30] mb-2">No Matching Institutions Found</h3>
-                  <p className="text-sm text-[#45464d] max-w-md mx-auto mb-6">
+                  <h3 className="text-lg font-bold text-[#12305A] mb-2">No Matching Institutions Found</h3>
+                  <p className="text-sm text-[#5F6F82] max-w-md mx-auto mb-6">
                     Try expanding your proximity radius, switching state selections, or resetting quota checkboxes.
                   </p>
                   <button
                     type="button"
                     onClick={resetFilters}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0051d5] text-white text-xs font-semibold hover:bg-[#316bf3] transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0757C9] text-white text-xs font-semibold hover:bg-[#06449E] transition-all shadow-sm cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[18px]">restart_alt</span>
                     <span>Reset All Filters</span>
@@ -267,10 +294,10 @@ export const Colleges: React.FC = () => {
                   <div className="space-y-4">
                     {colleges.map((college) => (
                       <StaggerItem key={college.id}>
-                        <div className="bg-white rounded-2xl border border-[#c6c6cd]/40 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div className="bg-white rounded-2xl border border-[#DCE5EF] shadow-xs overflow-hidden hover:shadow-md transition-shadow">
                           <div className="flex flex-col sm:flex-row">
                             {/* Image */}
-                            <div className="sm:w-48 h-48 sm:h-auto flex-shrink-0 relative">
+                            <div className="sm:w-52 h-48 sm:h-auto flex-shrink-0 relative">
                               <img
                                 src={college.image}
                                 alt={college.name}
@@ -278,7 +305,7 @@ export const Colleges: React.FC = () => {
                               />
                               <div className="absolute top-3 left-3 flex gap-2">
                                 {college.nirfRank && (
-                                  <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#069669] text-white">
+                                  <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-[#159EAE] text-white shadow-xs">
                                     NIRF #{college.nirfRank}
                                   </span>
                                 )}
@@ -289,35 +316,35 @@ export const Colleges: React.FC = () => {
                             <div className="flex-1 p-5 flex flex-col">
                               <div className="flex items-start justify-between gap-4 mb-3">
                                 <div>
-                                  <h3 className="text-lg font-semibold text-[#0b1c30] mb-1">{college.name}</h3>
-                                  <p className="text-sm text-[#45464d] flex items-center gap-1">
-                                    <span className="material-symbols-outlined text-[16px]">location_on</span>
+                                  <h3 className="text-lg font-bold text-[#12305A] mb-1 leading-snug">{college.name}</h3>
+                                  <p className="text-sm text-[#5F6F82] flex items-center gap-1">
+                                    <span className="material-symbols-outlined text-[16px] text-[#0757C9]">location_on</span>
                                     {college.city}, {college.state}
                                   </p>
                                 </div>
-                                <div className="flex items-center gap-1 text-[#069669] font-semibold">
-                                  <span className="material-symbols-outlined text-[18px]">star</span>
+                                <div className="flex items-center gap-1 text-[#087C8B] font-bold text-sm bg-[#159EAE]/10 px-2 py-0.5 rounded-md">
+                                  <span className="material-symbols-outlined text-[18px] text-[#FFBE2E]">star</span>
                                   <span>{college.rating}</span>
                                 </div>
                               </div>
 
-                              <p className="text-sm text-[#45464d] mb-4 line-clamp-2">{college.shortDescription}</p>
+                              <p className="text-sm text-[#5F6F82] mb-4 line-clamp-2 leading-relaxed">{college.shortDescription}</p>
 
                               {/* Metrics */}
-                              <div className="flex flex-wrap gap-4 mb-4 text-sm">
+                              <div className="flex flex-wrap gap-4 mb-4 text-sm bg-[#F7FAFD] p-2.5 rounded-xl border border-[#DCE5EF]/60">
                                 <div>
-                                  <span className="text-[#76777d] text-xs block">Distance</span>
-                                  <span className="font-semibold text-[#0b1c30]">{college.distance} km</span>
+                                  <span className="text-[#5F6F82] text-xs block">Distance</span>
+                                  <span className="font-bold text-[#12305A]">{college.distance} km</span>
                                 </div>
-                                <div className="w-px bg-[#c6c6cd]"></div>
+                                <div className="w-px bg-[#DCE5EF]"></div>
                                 <div>
-                                  <span className="text-[#76777d] text-xs block">Est. Year</span>
-                                  <span className="font-semibold text-[#0b1c30]">{college.estYear}</span>
+                                  <span className="text-[#5F6F82] text-xs block">Est. Year</span>
+                                  <span className="font-bold text-[#12305A]">{college.estYear}</span>
                                 </div>
-                                <div className="w-px bg-[#c6c6cd]"></div>
+                                <div className="w-px bg-[#DCE5EF]"></div>
                                 <div>
-                                  <span className="text-[#76777d] text-xs block">Avg Package</span>
-                                  <span className="font-semibold text-[#0b1c30]">{college.packageStats.average}</span>
+                                  <span className="text-[#5F6F82] text-xs block">Avg Package</span>
+                                  <span className="font-bold text-[#0757C9]">{college.packageStats.average}</span>
                                 </div>
                               </div>
 
@@ -326,42 +353,42 @@ export const Colleges: React.FC = () => {
                                 {college.managementTypes.map((type) => (
                                   <span
                                     key={type}
-                                    className="px-2 py-0.5 rounded text-xs font-semibold bg-[#0051d5]/10 text-[#0051d5] border border-[#0051d5]/20"
+                                    className="px-2.5 py-0.5 rounded text-xs font-semibold bg-[#0757C9]/10 text-[#0757C9] border border-[#0757C9]/20"
                                   >
                                     {type}
                                   </span>
                                 ))}
-                                <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#eff4ff] text-[#45464d] border border-[#c6c6cd]/50">
+                                <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-[#159EAE]/10 text-[#087C8B] border border-[#159EAE]/20">
                                   {college.accreditation}
                                 </span>
                               </div>
 
                               {/* Actions */}
-                              <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#c6c6cd]/30">
-                                <label className="flex items-center gap-2 cursor-pointer">
+                              <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#DCE5EF]">
+                                <label className="flex items-center gap-2 cursor-pointer select-none">
                                   <input
                                     type="checkbox"
                                     checked={isInCompare(college.id)}
                                     onChange={() => toggleCompare(college)}
-                                    className="rounded text-[#0051d5] focus:ring-[#0051d5] w-4 h-4 border-[#c6c6cd]"
+                                    className="rounded text-[#0757C9] focus:ring-[#0757C9] w-4 h-4 border-[#DCE5EF]"
                                   />
-                                  <span className="text-sm text-[#45464d]">Compare</span>
+                                  <span className="text-sm font-medium text-[#5F6F82] hover:text-[#12305A]">Compare</span>
                                 </label>
                                 <div className="flex items-center gap-2">
                                   <button
                                     type="button"
                                     onClick={() => toggleBookmark(college.id)}
-                                    className="p-2 rounded-lg text-[#45464d] hover:bg-[#eff4ff] transition-colors"
+                                    className="p-2 rounded-lg text-[#5F6F82] hover:text-[#0757C9] hover:bg-[#F7FAFD] transition-colors cursor-pointer"
                                     title={isBookmarked(college.id) ? 'Remove from saved' : 'Save college'}
                                   >
-                                    <span className="material-symbols-outlined text-[20px]">
+                                    <span className="material-symbols-outlined text-[20px] text-[#0757C9]">
                                       {isBookmarked(college.id) ? 'bookmark' : 'bookmark_border'}
                                     </span>
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => openCollegeDetail(college)}
-                                    className="px-4 py-2 rounded-lg bg-[#0051d5] text-white text-xs font-semibold hover:bg-[#316bf3] transition-all active:scale-[0.98]"
+                                    className="px-4 py-2 rounded-lg bg-[#0757C9] text-white text-xs font-semibold hover:bg-[#06449E] transition-all active:scale-[0.98] shadow-xs cursor-pointer"
                                   >
                                     View Details
                                   </button>
@@ -382,17 +409,17 @@ export const Colleges: React.FC = () => {
 
       {/* Mobile Filter Drawer */}
       {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0b1c30]/40 backdrop-blur-sm flex justify-end">
-          <div className="bg-white w-full max-w-sm h-full overflow-y-auto p-5 space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-[#c6c6cd]/30">
+        <div className="fixed inset-0 z-50 bg-[#12305A]/40 backdrop-blur-xs flex justify-end">
+          <div className="bg-white w-full max-w-sm h-full overflow-y-auto p-5 space-y-5 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#DCE5EF]">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#0051d5] text-[22px]">tune</span>
-                <h3 className="text-lg font-semibold text-[#0b1c30]">Filter Institutions</h3>
+                <span className="material-symbols-outlined text-[#0757C9] text-[22px]">tune</span>
+                <h3 className="text-lg font-bold text-[#12305A]">Filter Institutions</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setMobileFilterOpen(false)}
-                className="p-1 rounded-lg text-[#45464d] hover:bg-[#eff4ff]"
+                className="p-1 rounded-lg text-[#5F6F82] hover:bg-[#F7FAFD]"
               >
                 <span className="material-symbols-outlined text-[22px]">close</span>
               </button>
@@ -400,35 +427,34 @@ export const Colleges: React.FC = () => {
 
             {/* Mobile filters - same as desktop */}
             <div>
-              <label className="block text-xs font-semibold text-[#0b1c30] mb-2">Search</label>
+              <label className="block text-xs font-semibold text-[#12305A] mb-2">Search</label>
               <input
                 type="text"
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
                 placeholder="College name, city, or course..."
-                className="w-full h-10 px-3 rounded-lg border border-[#c6c6cd] text-sm text-[#0b1c30] bg-white"
+                className="w-full h-10 px-3 rounded-lg border border-[#DCE5EF] text-sm text-[#12305A] bg-white placeholder:text-[#5F6F82]/60 focus:border-[#0757C9] focus:ring-1 focus:ring-[#0757C9]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#0b1c30] mb-2">State / Region</label>
+              <label className="block text-xs font-semibold text-[#12305A] mb-2">State / Region</label>
               <select
                 value={filters.state}
                 onChange={(e) => handleFilterChange('state', e.target.value)}
-                className="w-full h-11 px-3 rounded-lg border border-[#c6c6cd] text-sm text-[#0b1c30] bg-white"
+                className="w-full h-11 px-3 rounded-lg border border-[#DCE5EF] text-sm text-[#12305A] bg-white focus:border-[#0757C9] focus:ring-1 focus:ring-[#0757C9]"
               >
-                <option value="ALL">All States</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Kerala">Kerala</option>
+                <option value="ALL">All States ({availableStates.reduce((acc, s) => acc + s.collegeCount, 0) || '800+'})</option>
+                {availableStates.map((s) => (
+                  <option key={s.name} value={s.name}>
+                    {s.name} ({s.collegeCount})
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#0b1c30] mb-2">Proximity Radius</label>
+              <label className="block text-xs font-semibold text-[#12305A] mb-2">Proximity Radius</label>
               <div className="grid grid-cols-2 gap-2">
                 {[
                   { value: 'all', label: 'Any Distance' },
@@ -438,53 +464,53 @@ export const Colleges: React.FC = () => {
                 ].map((option) => (
                   <label
                     key={option.value}
-                    className="flex items-center gap-2 p-2.5 rounded-lg border border-[#c6c6cd]/60 bg-[#eff4ff] text-sm cursor-pointer"
+                    className="flex items-center gap-2 p-2.5 rounded-lg border border-[#DCE5EF] bg-[#F7FAFD] text-sm cursor-pointer"
                   >
                     <input
                       type="radio"
                       name="mobile_distance_rad"
                       checked={filters.distance === option.value}
                       onChange={() => handleFilterChange('distance', option.value)}
-                      className="text-[#0051d5]"
+                      className="text-[#0757C9]"
                     />
-                    <span>{option.label}</span>
+                    <span className="text-[#12305A] text-xs font-medium">{option.label}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#0b1c30] mb-2">Management Allocation</label>
+              <label className="block text-xs font-semibold text-[#12305A] mb-2">Management Allocation</label>
               <div className="space-y-2">
-                <label className="flex items-center gap-2.5 text-sm">
+                <label className="flex items-center gap-2.5 text-sm cursor-pointer">
                   <input
                     type="checkbox"
                     checked={filters.managementType?.includes('General Management')}
                     onChange={() => handleManagementToggle('General Management')}
-                    className="rounded text-[#0051d5]"
+                    className="rounded text-[#0757C9]"
                   />
-                  <span>General Management Quota</span>
+                  <span className="text-sm text-[#5F6F82]">General Management Quota</span>
                 </label>
-                <label className="flex items-center gap-2.5 text-sm">
+                <label className="flex items-center gap-2.5 text-sm cursor-pointer">
                   <input
                     type="checkbox"
                     checked={filters.managementType?.includes('NRI')}
                     onChange={() => handleManagementToggle('NRI')}
-                    className="rounded text-[#0051d5]"
+                    className="rounded text-[#0757C9]"
                   />
-                  <span>NRI Seat Quota</span>
+                  <span className="text-sm text-[#5F6F82]">NRI Seat Quota</span>
                 </label>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#c6c6cd]/30 flex items-center gap-3">
+            <div className="pt-3 border-t border-[#DCE5EF] flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => {
                   resetFilters();
                   setMobileFilterOpen(false);
                 }}
-                className="flex-1 py-3 rounded-lg border border-[#c6c6cd] text-xs text-[#0b1c30]"
+                className="flex-1 py-3 rounded-lg border border-[#DCE5EF] text-xs font-semibold text-[#12305A] hover:bg-[#F7FAFD]"
               >
                 Reset
               </button>
@@ -494,7 +520,7 @@ export const Colleges: React.FC = () => {
                   loadColleges();
                   setMobileFilterOpen(false);
                 }}
-                className="flex-1 py-3 rounded-lg bg-[#0051d5] text-white text-xs font-semibold"
+                className="flex-1 py-3 rounded-lg bg-[#0757C9] text-white text-xs font-semibold hover:bg-[#06449E]"
               >
                 Apply Filters
               </button>
@@ -505,12 +531,12 @@ export const Colleges: React.FC = () => {
 
       {/* College Detail Modal */}
       {selectedCollege && (
-        <div className="fixed inset-0 z-50 bg-[#0b1c30]/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-[#c6c6cd]/40">
+        <div className="fixed inset-0 z-50 bg-[#12305A]/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-[#DCE5EF]">
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 border-b border-[#c6c6cd]/30 flex items-start justify-between bg-[#eff4ff]/40">
+            <div className="p-5 sm:p-6 border-b border-[#DCE5EF] flex items-start justify-between bg-[#F7FAFD]">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-[#0051d5] text-white text-xl font-bold flex items-center justify-center shrink-0 shadow-sm">
+                <div className="w-14 h-14 rounded-2xl bg-[#0757C9] text-white text-xl font-bold flex items-center justify-center shrink-0 shadow-xs">
                   {selectedCollege.shortName}
                 </div>
                 <div>
@@ -518,22 +544,22 @@ export const Colleges: React.FC = () => {
                     {selectedCollege.managementTypes.map((type) => (
                       <span
                         key={type}
-                        className="px-2 py-0.5 rounded text-xs font-semibold bg-[#0051d5]/10 text-[#0051d5] border border-[#0051d5]/20"
+                        className="px-2 py-0.5 rounded text-xs font-semibold bg-[#0757C9]/10 text-[#0757C9] border border-[#0757C9]/20"
                       >
                         {type}
                       </span>
                     ))}
-                    <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#002114] text-[#069669]">
+                    <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#159EAE]/10 text-[#087C8B] border border-[#159EAE]/20">
                       {selectedCollege.accreditation}
                     </span>
-                    <span className="flex items-center gap-1 text-xs text-[#76777d]">
-                      <span className="material-symbols-outlined text-[16px]">distance</span>
+                    <span className="flex items-center gap-1 text-xs text-[#5F6F82]">
+                      <span className="material-symbols-outlined text-[16px] text-[#0757C9]">distance</span>
                       {selectedCollege.distance} km away
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-[#0b1c30] leading-tight">{selectedCollege.name}</h2>
-                  <p className="text-sm text-[#45464d] flex items-center gap-1 mt-0.5">
-                    <span className="material-symbols-outlined text-[16px]">location_on</span>
+                  <h2 className="text-xl font-bold text-[#12305A] leading-tight">{selectedCollege.name}</h2>
+                  <p className="text-sm text-[#5F6F82] flex items-center gap-1 mt-0.5">
+                    <span className="material-symbols-outlined text-[16px] text-[#0757C9]">location_on</span>
                     {selectedCollege.city}, {selectedCollege.state}
                   </p>
                 </div>
@@ -541,93 +567,91 @@ export const Colleges: React.FC = () => {
               <button
                 type="button"
                 onClick={closeCollegeDetail}
-                className="p-1.5 rounded-lg text-[#45464d] hover:bg-[#eff4ff] transition-colors"
+                className="p-1.5 rounded-lg text-[#5F6F82] hover:bg-[#F7FAFD] transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[24px]">close</span>
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar">
-              <div className="space-y-5">
-                <div>
-                  <h4 className="text-sm font-semibold text-[#0b1c30] mb-2">Institutional Profile</h4>
-                  <p className="text-sm text-[#0b1c30] leading-relaxed">{selectedCollege.fullDescription}</p>
-                </div>
+            <div className="p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar space-y-5">
+              <div>
+                <h4 className="text-sm font-bold text-[#12305A] mb-2">Institutional Profile</h4>
+                <p className="text-sm text-[#5F6F82] leading-relaxed">{selectedCollege.fullDescription}</p>
+              </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                  <div className="p-3 bg-[#eff4ff] rounded-xl border border-[#c6c6cd]/40">
-                    <span className="text-xs text-[#76777d] block">Established</span>
-                    <span className="text-sm font-semibold text-[#0b1c30]">{selectedCollege.estYear}</span>
-                  </div>
-                  <div className="p-3 bg-[#eff4ff] rounded-xl border border-[#c6c6cd]/40">
-                    <span className="text-xs text-[#76777d] block">Student Rating</span>
-                    <span className="text-sm font-semibold text-[#069669] flex items-center gap-1">
-                      {selectedCollege.rating} ★
-                    </span>
-                  </div>
-                  <div className="p-3 bg-[#eff4ff] rounded-xl border border-[#c6c6cd]/40">
-                    <span className="text-xs text-[#76777d] block">Annual Tuition</span>
-                    <span className="text-sm font-semibold text-[#0b1c30]">
-                      {selectedCollege.courses[0]?.annualFee || 'N/A'}
-                    </span>
-                  </div>
-                  <div className="p-3 bg-[#eff4ff] rounded-xl border border-[#c6c6cd]/40">
-                    <span className="text-xs text-[#76777d] block">Campus Reviews</span>
-                    <span className="text-sm font-semibold text-[#0b1c30]">{selectedCollege.reviewsCount}</span>
-                  </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div className="p-3 bg-[#F7FAFD] rounded-xl border border-[#DCE5EF]">
+                  <span className="text-xs text-[#5F6F82] block">Established</span>
+                  <span className="text-sm font-bold text-[#12305A]">{selectedCollege.estYear}</span>
                 </div>
-
-                <div className="p-4 rounded-xl bg-[#0051d5]/5 border border-[#0051d5]/20">
-                  <h5 className="text-sm font-semibold text-[#0051d5] mb-1 flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[18px]">verified_user</span>
-                    Highlights
-                  </h5>
-                  <ul className="text-sm text-[#0b1c30] space-y-1">
-                    {selectedCollege.highlights.map((highlight, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <span className="material-symbols-outlined text-[16px] text-[#069669]">check_circle</span>
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="p-3 bg-[#F7FAFD] rounded-xl border border-[#DCE5EF]">
+                  <span className="text-xs text-[#5F6F82] block">Student Rating</span>
+                  <span className="text-sm font-bold text-[#087C8B] flex items-center gap-1">
+                    {selectedCollege.rating} ★
+                  </span>
                 </div>
-
-                <div>
-                  <h4 className="text-sm font-semibold text-[#0b1c30] mb-2">Available Courses</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {selectedCollege.courses.map((course) => (
-                      <div key={course.id} className="p-3 bg-[#eff4ff] rounded-xl border border-[#c6c6cd]/40">
-                        <div className="text-sm font-semibold text-[#0b1c30]">{course.name}</div>
-                        <div className="text-xs text-[#45464d] mt-1">{course.degree} • {course.duration}</div>
-                        <div className="text-xs text-[#0051d5] font-semibold mt-1">{course.annualFee}</div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="p-3 bg-[#F7FAFD] rounded-xl border border-[#DCE5EF]">
+                  <span className="text-xs text-[#5F6F82] block">Annual Tuition</span>
+                  <span className="text-sm font-bold text-[#0757C9]">
+                    {selectedCollege.courses[0]?.annualFee || 'N/A'}
+                  </span>
                 </div>
+                <div className="p-3 bg-[#F7FAFD] rounded-xl border border-[#DCE5EF]">
+                  <span className="text-xs text-[#5F6F82] block">Campus Reviews</span>
+                  <span className="text-sm font-bold text-[#12305A]">{selectedCollege.reviewsCount}</span>
+                </div>
+              </div>
 
-                <div>
-                  <h4 className="text-sm font-semibold text-[#0b1c30] mb-2">Placement Statistics</h4>
-                  <div className="p-4 bg-[#eff4ff] rounded-xl border border-[#c6c6cd]/40">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <span className="text-xs text-[#76777d] block">Average Package</span>
-                        <span className="text-sm font-semibold text-[#0b1c30]">{selectedCollege.packageStats.average}</span>
-                      </div>
-                      <div>
-                        <span className="text-xs text-[#76777d] block">Highest Package</span>
-                        <span className="text-sm font-semibold text-[#0b1c30]">{selectedCollege.packageStats.highest}</span>
-                      </div>
+              <div className="p-4 rounded-xl bg-[#159EAE]/5 border border-[#159EAE]/20">
+                <h5 className="text-sm font-bold text-[#087C8B] mb-1.5 flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[18px] text-[#159EAE]">verified_user</span>
+                  Key Highlights
+                </h5>
+                <ul className="text-sm text-[#12305A] space-y-1.5">
+                  {selectedCollege.highlights.map((highlight, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="material-symbols-outlined text-[16px] text-[#159EAE] mt-0.5">check_circle</span>
+                      <span className="text-[#5F6F82]">{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-bold text-[#12305A] mb-2">Available Courses & Fees</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {selectedCollege.courses.map((course) => (
+                    <div key={course.id} className="p-3.5 bg-[#F7FAFD] rounded-xl border border-[#DCE5EF]">
+                      <div className="text-sm font-bold text-[#12305A]">{course.name}</div>
+                      <div className="text-xs text-[#5F6F82] mt-1">{course.degree} • {course.duration}</div>
+                      <div className="text-xs text-[#0757C9] font-bold mt-1.5">{course.annualFee}</div>
                     </div>
-                    <div className="mt-3">
-                      <span className="text-xs text-[#76777d] block">Top Recruiters</span>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {selectedCollege.packageStats.topRecruiters.map((recruiter) => (
-                          <span key={recruiter} className="px-2 py-0.5 rounded text-xs bg-white border border-[#c6c6cd]/60">
-                            {recruiter}
-                          </span>
-                        ))}
-                      </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-bold text-[#12305A] mb-2">Placement Statistics</h4>
+                <div className="p-4 bg-[#F7FAFD] rounded-xl border border-[#DCE5EF]">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-xs text-[#5F6F82] block">Average Package</span>
+                      <span className="text-sm font-bold text-[#0757C9]">{selectedCollege.packageStats.average}</span>
+                    </div>
+                    <div>
+                      <span className="text-xs text-[#5F6F82] block">Highest Package</span>
+                      <span className="text-sm font-bold text-[#159EAE]">{selectedCollege.packageStats.highest}</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-[#DCE5EF]">
+                    <span className="text-xs text-[#5F6F82] block mb-1.5">Top Recruiters</span>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedCollege.packageStats.topRecruiters.map((recruiter) => (
+                        <span key={recruiter} className="px-2.5 py-0.5 rounded text-xs font-medium bg-white text-[#12305A] border border-[#DCE5EF]">
+                          {recruiter}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -635,13 +659,13 @@ export const Colleges: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 sm:p-5 border-t border-[#c6c6cd]/30 bg-[#eff4ff]/40 flex items-center justify-between gap-3">
+            <div className="p-4 sm:p-5 border-t border-[#DCE5EF] bg-[#F7FAFD] flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => toggleBookmark(selectedCollege.id)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#c6c6cd] text-[#0b1c30] text-xs hover:bg-white transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#DCE5EF] text-[#12305A] text-xs font-semibold hover:bg-white transition-colors cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">
+                <span className="material-symbols-outlined text-[18px] text-[#0757C9]">
                   {isBookmarked(selectedCollege.id) ? 'bookmark' : 'bookmark_border'}
                 </span>
                 <span>{isBookmarked(selectedCollege.id) ? 'Saved' : 'Save College'}</span>
@@ -652,7 +676,7 @@ export const Colleges: React.FC = () => {
                   onClick={() => {
                     toggleCompare(selectedCollege);
                   }}
-                  className="px-3.5 py-2 rounded-lg border border-[#c6c6cd] text-[#0b1c30] text-xs hover:bg-white transition-colors"
+                  className="px-3.5 py-2 rounded-lg border border-[#DCE5EF] text-[#12305A] text-xs font-semibold hover:bg-white transition-colors cursor-pointer"
                 >
                   {isInCompare(selectedCollege.id) ? 'Remove from Compare' : '+ Compare'}
                 </button>
@@ -662,7 +686,7 @@ export const Colleges: React.FC = () => {
                     closeCollegeDetail();
                     openEnquiry(selectedCollege.name);
                   }}
-                  className="px-5 py-2 rounded-lg bg-[#0051d5] text-white text-xs font-semibold hover:bg-[#316bf3] transition-all active:scale-[0.98] shadow-sm"
+                  className="px-5 py-2 rounded-lg bg-[#0757C9] text-white text-xs font-semibold hover:bg-[#06449E] transition-all active:scale-[0.98] shadow-sm cursor-pointer"
                 >
                   Enquire / Apply Now
                 </button>
