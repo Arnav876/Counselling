@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCompare } from '../context/CompareContext';
 import { FadeIn, StaggerContainer, StaggerItem } from '../components/ui/motion';
-import { POPULAR_STATES } from '../data/colleges';
 import { collegeService } from '../services/collegeService';
 import type { StateData } from '../types/college';
 
 export const Home: React.FC = () => {
   const { openEnquiry } = useCompare();
-  const [popularStates, setPopularStates] = useState<StateData[]>(POPULAR_STATES);
+  const [popularStates, setPopularStates] = useState<StateData[]>([]);
 
   useEffect(() => {
     collegeService.getPopularStates().then(states => {

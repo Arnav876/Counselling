@@ -1,19 +1,25 @@
 const getApiBase = () => {
   const envUrl = import.meta.env.VITE_API_URL;
   if (envUrl && typeof envUrl === 'string' && envUrl.trim() !== '') {
-    return envUrl.trim().replace(/\/+$/, '');
+    const trimmed = envUrl.trim().replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
   }
   // In production (e.g. Vercel deployment), relative /api routes to serverless functions
   if (import.meta.env.PROD) {
     return '/api';
   }
-  return 'http://localhost:5001/api';
+  return 'https://counselling-3zlx.onrender.com/api';
 };
 
 export const API_BASE = getApiBase();
 
 export async function apiFetch(path: string, options: RequestInit = {}): Promise<Response> {
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  let cleanPath = path.startsWith('/') ? path : `/${path}`;
+  if (cleanPath.startsWith('/api/')) {
+    cleanPath = cleanPath.substring(4);
+  } else if (cleanPath === '/api') {
+    cleanPath = '';
+  }
   const primaryUrl = `${API_BASE}${cleanPath}`;
   
   const token = localStorage.getItem('abc_auth_token');
@@ -44,3 +50,4 @@ export async function apiFetch(path: string, options: RequestInit = {}): Promise
     throw primaryErr;
   }
 }
+

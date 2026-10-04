@@ -15,6 +15,12 @@ export const Colleges: React.FC = () => {
   const [availableStates, setAvailableStates] = useState<StateData[]>([]);
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
 
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [limit] = useState(15);
+  const [totalColleges, setTotalColleges] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
   // Filter state
   const [filters, setFilters] = useState<FilterState>({
     search: '',
@@ -31,6 +37,7 @@ export const Colleges: React.FC = () => {
   useEffect(() => {
     if (location.state?.filterState) {
       setFilters((prev) => ({ ...prev, state: location.state.filterState }));
+      setPage(1);
     }
   }, [location.state]);
 
@@ -42,18 +49,22 @@ export const Colleges: React.FC = () => {
   // Load colleges
   useEffect(() => {
     loadColleges();
-  }, [filters, sort]);
+  }, [filters, sort, page]);
 
   const loadColleges = async () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await collegeService.getColleges(filters, sort);
-      setColleges(result);
+      const result = await collegeService.getCollegesPaginated(filters, sort, page, limit);
+      setColleges(result.colleges);
+      setTotalColleges(result.pagination.total);
+      setTotalPages(result.pagination.totalPages);
     } catch (err: any) {
       console.error('Failed to load colleges:', err);
-      setError('Unable to load colleges from backend. Please ensure the server is running.');
+      setError('Unable to load colleges from live backend. Please check connection and retry.');
       setColleges([]);
+      setTotalColleges(0);
+      setTotalPages(0);
     } finally {
       setLoading(false);
     }
@@ -61,16 +72,18 @@ export const Colleges: React.FC = () => {
 
   const handleFilterChange = (key: keyof FilterState, value: any) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
+    setPage(1);
   };
 
   const handleManagementToggle = (type: 'General Management' | 'NRI') => {
     setFilters((prev) => {
       const current = prev.managementType || [];
-      if (current.includes(type)) {
-        return { ...prev, managementType: current.filter((t) => t !== type) };
-      }
-      return { ...prev, managementType: [...current, type] };
+      const updated = current.includes(type)
+        ? current.filter((t) => t !== type)
+        : [...current, type];
+      return { ...prev, managementType: updated };
     });
+    setPage(1);
   };
 
   const resetFilters = () => {
@@ -82,6 +95,7 @@ export const Colleges: React.FC = () => {
       stream: 'all',
     });
     setSort('relevance');
+    setPage(1);
   };
 
   const openCollegeDetail = (college: College) => {
@@ -91,6 +105,36 @@ export const Colleges: React.FC = () => {
   const closeCollegeDetail = () => {
     setSelectedCollege(null);
   };
+
+  const getPaginationRange = (current: number, total: number) => {
+    const delta = 2;
+    const range: number[] = [];
+    const rangeWithDots: (number | string)[] = [];
+    let l: number | undefined;
+
+    for (let i = 1; i <= total; i++) {
+      if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+        range.push(i);
+      }
+    }
+
+    for (const i of range) {
+      if (l !== undefined) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l !== 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  };
+
+  const startIndex = totalColleges > 0 ? (page - 1) * limit + 1 : 0;
+  const endIndex = Math.min(page * limit, totalColleges);
 
   return (
     <div className="min-h-screen bg-[#F7FAFD]">
@@ -102,7 +146,7 @@ export const Colleges: React.FC = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-[#12305A]">Explore Institutions</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-sm font-bold text-[#0757C9]">
-                  Showing {colleges.length} Colleges Found
+                  {loading ? 'Searching live database...' : `Showing ${startIndex}-${endIndex} of ${totalColleges} Colleges Found`}
                 </span>
                 <span className="text-[#5F6F82] text-xs">• Verified Admissions 2025-26</span>
               </div>
@@ -123,7 +167,10 @@ export const Colleges: React.FC = () => {
                 <div className="relative">
                   <select
                     value={sort}
-                    onChange={(e) => setSort(e.target.value as SortOption)}
+                    onChange={(e) => {
+                      setSort(e.target.value as SortOption);
+                      setPage(1);
+                    }}
                     className="h-10 pl-3 pr-8 rounded-lg border border-[#DCE5EF] text-sm text-[#12305A] bg-white appearance-none focus:border-[#0757C9] focus:ring-1 focus:ring-[#0757C9] cursor-pointer"
                   >
                     <option value="relevance">Relevance</option>
@@ -290,8 +337,9 @@ export const Colleges: React.FC = () => {
                   </button>
                 </div>
               ) : (
-                <StaggerContainer>
-                  <div className="space-y-4">
+                <>
+                  <StaggerContainer>
+                    <div className="space-y-4">
                     {colleges.map((college) => (
                       <StaggerItem key={college.id}>
                         <div className="bg-white rounded-2xl border border-[#DCE5EF] shadow-xs overflow-hidden hover:shadow-md transition-shadow">
@@ -401,11 +449,75 @@ export const Colleges: React.FC = () => {
                     ))}
                   </div>
                 </StaggerContainer>
-              )}
-            </div>
+
+                {/* Pagination Navigation Bar */}
+                {totalPages > 1 && (
+                  <div className="bg-white rounded-2xl border border-[#DCE5EF] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs mt-6">
+                    <div className="text-xs text-[#5F6F82]">
+                      Showing Page <span className="font-bold text-[#12305A]">{page}</span> of{' '}
+                      <span className="font-bold text-[#12305A]">{totalPages}</span> ({totalColleges} total colleges)
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-wrap justify-center">
+                      <button
+                        type="button"
+                        disabled={page <= 1}
+                        onClick={() => {
+                          setPage((p) => Math.max(1, p - 1));
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-[#DCE5EF] bg-white text-[#12305A] text-xs font-semibold hover:bg-[#F7FAFD] disabled:opacity-35 disabled:cursor-not-allowed transition-colors shadow-xs cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+                        <span>Previous</span>
+                      </button>
+
+                      <div className="flex items-center gap-1">
+                        {getPaginationRange(page, totalPages).map((p, idx) =>
+                          typeof p === 'number' ? (
+                            <button
+                              key={`page-${p}`}
+                              type="button"
+                              onClick={() => {
+                                setPage(p);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }}
+                              className={`w-9 h-9 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                page === p
+                                  ? 'bg-[#0757C9] text-white shadow-xs'
+                                  : 'bg-white border border-[#DCE5EF] text-[#12305A] hover:bg-[#F7FAFD]'
+                              }`}
+                            >
+                              {p}
+                            </button>
+                          ) : (
+                            <span key={`dots-${idx}`} className="px-1 text-xs text-[#5F6F82]">
+                              ...
+                            </span>
+                          )
+                        )}
+                      </div>
+
+                      <button
+                        type="button"
+                        disabled={page >= totalPages}
+                        onClick={() => {
+                          setPage((p) => Math.min(totalPages, p + 1));
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-[#DCE5EF] bg-white text-[#12305A] text-xs font-semibold hover:bg-[#F7FAFD] disabled:opacity-35 disabled:cursor-not-allowed transition-colors shadow-xs cursor-pointer"
+                      >
+                        <span>Next</span>
+                        <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
+    </div>
 
       {/* Mobile Filter Drawer */}
       {mobileFilterOpen && (
